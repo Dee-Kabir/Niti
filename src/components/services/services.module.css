@@ -1,0 +1,15 @@
+.Services{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin: 32px;
+    text-align: center;
+    justify-content: center;
+}
+.services_box{
+    margin-top: 32px;
+}
+.Services_heading {
+    text-align: center;
+    font-size: 2.5rem;
+}

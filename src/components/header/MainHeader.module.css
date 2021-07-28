@@ -1,0 +1,55 @@
+.Header{
+    display: flex;
+    height: 71px;
+    width: 100%;
+    padding: 0px 32px;
+    box-shadow: 2px 2px #888;
+}
+.Header_Logo_Block{
+    margin: 0px;
+    padding: 20px;
+    vertical-align: middle;
+    width: 158px;
+    flex-grow: 1;
+}
+.Logo_niti{
+    color: rgb(85,26,139);
+    font-size: 1.4rem;
+}
+.Logo_com{
+    font-size: inherit;
+    color: white;
+    background: rgb(85,26,139);
+}
+.Header_Items_Block{
+    margin-left: 0px;
+    display: flex;
+    flex-grow: 4;
+}
+
+.Header_Auth_Block{
+    padding: 20px;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-around
+}
+.User_Avatar{
+    padding: 8px;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    color: white;
+    background: rgb(85,26,139);
+    font-weight: 800;
+    text-align: center;
+    margin-right: 8px;
+}
+.User_Avatar:hover {
+    color: white;
+}
+@media (max-width: 400px){
+    .Header_Items_Block{
+        display: none;
+    }
+}

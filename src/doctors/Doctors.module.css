@@ -1,0 +1,77 @@
+.Doctors_component{
+    width: 100%;
+}
+.Doctors_flow{
+    width: 100%;
+    padding: 20px;
+    background: rgb(85,26,139);
+    height: 300px;
+}
+.table_name {
+    padding: 2px;
+    margin: 4px;
+}
+.Doctors_flow_heading{
+    font-size: 2rem;
+    color: white;
+    font-weight: 600;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    text-align: center;
+    padding: 16px;
+}
+.Doctors_flow_points{
+    display: flex;
+    justify-content: space-evenly;
+}
+.Doctors_flow_point{
+    padding: 16px;
+    background: white;
+    color: rgb(85,26,139);
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin: 16px;
+    border-radius: 8px;
+    width: 200px;
+}
+.Doctor_SearchBox_Heading {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 500;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    margin: 32px auto;
+}
+.Doctor_SearchBox {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.Doctor_SearchBox_state {
+    width: 25%;
+    height: 38px;
+}
+.Doctor_SearchBox_city{
+    width: 25%;
+    height: 38px;
+}
+.Doctor_SearchBox_doctor_name{
+    width: 30%;
+    height: 38px;
+}
+.Doctor_SearchBox_doctor_name > input {
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-bottom: 2px solid #888;
+}
+.Find_A_Doctor_btn{
+    padding: 8px;
+    color: wheat;
+    background: rgb(85,36,139);
+    border: none;
+    border-radius: 4px;
+    margin-left: 16px;
+}
+.SearchResults {
+    margin: 32px auto;
+}

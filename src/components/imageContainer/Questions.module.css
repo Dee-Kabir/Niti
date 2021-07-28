@@ -1,0 +1,50 @@
+.question_block {
+    border-bottom: 1px solid rgba(0,173,239,0.2);
+    padding: 15px 2px;
+}
+.question{
+    color: rgb(89,100,102);
+    font-size: 18px;
+    cursor: pointer;
+}
+.answer{
+    font-size: 16px;
+    padding: 8px 4px;
+    color: rgb(89,102,100);
+    
+}
+.Faq_Heading{
+    font-size: 2.5rem;
+    text-align: center;
+    margin: 16px 2px 32px;
+    font-weight: 600;
+}
+.Faq {
+    width: 90%;
+    margin: auto;
+    padding: 15px;
+}
+.WhyUs_Container{
+    width: 95%;
+    margin: auto;
+    background: whitesmoke;
+    padding: 16px 2px;
+    box-shadow: 5px 5px 6px 5px #888;
+    border-radius: 4px;
+    margin-top: 32px;
+}
+.WhyUs_block {
+    text-align: center;
+}
+.WhyUs_point {
+    background: rgb(223, 223, 70);
+    padding: 8px 16px;
+    width: 300px;
+    margin: 15px auto;
+    border-radius: 4px;
+    position: relative;
+}
+.WhyUs_point:hover{
+    background: rgba(85,26,139,0.8);
+    color: white;
+}

@@ -1,0 +1,77 @@
+.RegisterForm{
+    width: 100%;
+    
+    background: #eee;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.RegisterForm_Block {
+    background: white;
+    border: 2px solid gray;
+    box-shadow: 0px 5px 20px 2px #888;
+    padding: 32px;
+    width: 80%;
+    margin: 32px auto;
+}
+.Heading_Add_doctor {
+    font-size: 1.4rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 32px;
+}
+.RegisterForm_HInput {
+    display: flex;
+    margin-top: 16px;
+}
+.RegisterForm_HInput > label {
+    width: 30%;
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+    text-align: left;
+}
+.RegisterForm_HInput > input {
+    letter-spacing: 1.5px;
+    font-size: 1.2rem;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    width: 70%;
+    border: none;
+    border-bottom: 2px solid grey;
+}
+.RegisterForm_HInput > input:focus-visible {
+    outline: 0px;
+}
+.checkbox_field{
+    display: flex;
+    justify-content: space-around;
+    
+}
+.Checkbox_label_input{
+    letter-spacing: 1.5px;
+    font-size: 1.2rem;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    margin-right: 16px;
+}
+.Checkbox_label_input > input {
+    width: 15px;
+    height: 15px;
+    margin-right: 2px;
+}
+.Image_form_add_doctor{
+    width: 200px;
+    height: 200px;
+}
+.add_doctor_img_btn{
+    width: 125px;
+    height: 40px;
+}
+.Submit_btn_ {
+    
+    background: rgb(85,26,139);
+    color: white;
+    padding: 8px 16px;
+    margin-top: 8px;
+    border: none;
+    border-radius: 4px;
+}

@@ -1,0 +1,10 @@
+.signin_registerbtn{
+    background: whitesmoke;
+    border: 1px solid #888;
+    border-radius: 4px;
+    padding: 8px;
+    background: rgb(85,29,139);
+    color: white;
+    font-weight: 500;
+    cursor: pointer;
+}
