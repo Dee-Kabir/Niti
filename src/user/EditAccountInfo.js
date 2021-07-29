@@ -25,8 +25,8 @@ const EditAccountInfo = ({user,props}) => {
         loadUserInfo()
     },[])
     const loadUserInfo = () => {
-        getUser(isAuthenticated(),"users").then(data => {
-            let {name,mobileNumber,address,country,state,city} = data;
+        getUser(isAuthenticated()).then(data => {
+            let {name,mobileNumber,address,country,state,city} = data.data();
             setValues({...values,name:name,mobileNumber:mobileNumber,address:address,country:country,state:state,city:city})
         })
     }

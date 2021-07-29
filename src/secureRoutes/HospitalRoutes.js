@@ -3,6 +3,6 @@ import { isAuthenticated, typeOfUser } from "../actions/auth"
 
 const HospitalRoutes = (props) => {
     console.log(isAuthenticated(),typeOfUser())
-    return (isAuthenticated() && typeOfUser()=="hospital") ? <Route {...props} /> : <Redirect to="/hospitalAuth" />
+    return (isAuthenticated() && typeOfUser()=="hospital") ? <Route {...props} /> : <Redirect to="/hospital-auth" />
 }
 export default HospitalRoutes;

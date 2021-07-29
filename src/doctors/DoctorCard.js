@@ -1,55 +1,55 @@
 import { Fragment } from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
+const week = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
 const DoctorCard = ({ doctor }) => {
-  return (
+  const checkAvailability = () => {
+    console.log("checking")
+    if(doctor.available){
+      if(doctor.jobType == "private"){
+        if(doctor.weekDays.includes(week(new Date().getDay()))){
+          <Redirect to={`/appointment/${doctor.id}`} />
+        }else{
+          console.log("Not Available")
+        }
+      }else{
+        console.log("redirecting")
+        window.location.href = `/appointment/${doctor.id}`
+      }
+    }else{
+      console.log("not available")
+    }
+  }
+  return (doctor && 
     <Fragment>
-      <div
-        style={{
-          width: "80%",
-          height: "80px",
-          border: "1px solid #888",
-          boxShadow: "4px 4px 4px 1px #888",
-          background: "#eef",
-          overflow: "hidden",
-          margin: "32px auto",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            width: "100%",
-            height: "100%",
-            alignItems: 'center',
-            justifyContent: 'space-around'
-          }}
-        >
-          <div
-            style={{ fontWeight: "500", fontSize: "1.2rem" }}
-          >
-            {" "}
-            Name: <span>Dr. {doctor.name && doctor.name.substr(0, 15)}</span>
+      <div className="w3-container" style={{fontSize:"1vw",boxShadow:"0px 5px 8px 1px #888"}}>
+     <div className="w3-row-padding w3-panel w3-border-top w3-border">
+         <div className="w3-col l3 m6 s4 w3-white w3-center">          
+          <img src={doctor.photo? doctor.photo : "https://images.theconversation.com/files/304957/original/file-20191203-66986-im7o5.jpg?ixlib=rb-1.1.0&q=45&auto=format&w=1200&h=1200.0&fit=crop"} className="w3-round w3-margin-bottom" alt="Random Name" alt="New York" style={{width:"100%"}} className="w3-hover-opacity"/>
+        </div>      
+          <div className="w3-col l7 m3 s4 w3-white w3-left" >
+            <h3 style={{color: "darkblue"}}><b>{doctor.name}</b></h3>
+            <p className="w3-opacity" >{doctor.speciality}</p>
+            <p className="w3-opacity" >{doctor.experience}1 yr Experience</p>
+            <b>Location</b>
+            <p className="w3-opacity">{doctor.address}</p>
+            <p className="w3-container">Fee: Rs. {doctor.private ? doctor.fee : 0}</p>
+            <div className="w3-padding w3-xsmall">
+              <i className="material-icons" style={{color:"green"}}>thumb_up</i>
+              <Link to="#" style={{color:"green"}}>Patient Stories</Link>
+            </div>
           </div>
-          <div style={{ fontWeight: "500", fontSize: "1.2rem" }}>
-            {" "}
-            Mobile Number : {doctor.mobileNumber}
+          <div className="w3-col l2 m3 s4 w3-white w3-center"><br />                 
+            <div className="w3-padding w3-xsmall" style={{fontSize:"10px" ,color:"green"}}>
+              <i className="material-icons" style={{fontSize:"15px"}}>today</i><b>{doctor.weekDays ? doctor.weekDays:"All working Days"}</b>
+            </div><br></br>
+            <button onClick={checkAvailability} className="w3-button w3-blue w3-round-xlarge">Book Appointment</button>
+            <br></br>
+            <Link to="#" className="w3-button w3-purple w3-round-xlarge">Video Consult</Link>
           </div>
-          <Link to="/">
-          <button
-            style={{
-              padding: "8px",
-              background: "rgb(0,53,128)",
-              cursor: "pointer",
-              border: "none",
-              color: "white",
-              marginTop: "8px",
-            }}
-          >
-            Contact Now
-          </button>
-          </Link>
         </div>
       </div>
-    </Fragment>
+    
+      </Fragment>
   );
 };
 export default DoctorCard;

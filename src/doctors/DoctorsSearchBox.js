@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { findDoctorByName } from "../actions/firebaseapi";
+import { findDoctorByName, findHospitals } from "../actions/firebaseapi";
 import SearchInput from "../components/search/SearchInput"
 import classes from "./Doctors.module.css"
 import DoctorCard from "./DoctorCard"
+import HospitalCard from "../components/cards/HospitalCard";
 const DoctorSearchBox = () => {
     const [values,setValues] = useState({
         state: "",
@@ -12,6 +13,7 @@ const DoctorSearchBox = () => {
     const {state,city,error} = values;
     const [doctorName,setDoctorName] = useState("")
     const [foundDoctors,setFinfDoctors] = useState("")
+    const [foundHospitals,setFindHospitals] = useState("")
     const handlePlaces = (data) => {
         if(data.category == "state")
         setValues({state:"",city:"",[data.category]: data.text,error:""})
@@ -23,33 +25,32 @@ const DoctorSearchBox = () => {
         setValues({...values,error:""})
     }
     const findDoctor = () => {
-        let result = [];
         if(doctorName!=""){
-            findDoctorByName(doctorName,"name").then((data)=> {
-                data.forEach((da) => 
-                    result.push(da.data())
-                )
-                setFinfDoctors([...result])
-            })
+            findDoctors(doctorName,"name")
         }else if(city!=""){
-            findDoctorByName(city,"city").then((data)=> {
-                data.forEach((da) => 
-                    result.push(da.data())
-                )
-                setFinfDoctors([...result])
-            })
+            findDoctors(city,"city")
         }else if(state!=""){
-            findDoctorByName(state,"state").then((data)=> {
-                data.forEach((da) => 
-                    result.push(da.data())
-                )
-                setFinfDoctors([...result])
-            })
-            
+            findDoctors(state,"state")
         }else{
             setValues({...values,error:"Select at least one field"})
         }
         
+    }
+    const findDoctors = (value,type) => {
+        let result = [];
+        let hospitalsResult = []
+        findDoctorByName(value,type).then((data)=> {
+            data.forEach((da) => 
+                result.push({...da.data(),id: da.id})
+            )
+            setFinfDoctors(result)
+        })
+        findHospitals(value,type).then((data)=>{
+            data.forEach((da)=>{
+                hospitalsResult.push({...da.data(),id:da.id})
+            })
+            setFindHospitals(hospitalsResult)
+        })
     }
     return(
         <div style={{width: '100%'}}>
@@ -62,16 +63,23 @@ const DoctorSearchBox = () => {
         <div className={classes.Doctor_SearchBox_city}>
         <SearchInput category={state ? `cities/${state}`: false} value={city} name="city" handlePlaces={handlePlaces} placeholder="city" />
         </div>
-        <div style={{margin: "auto 8px",fontWeight: '700'}}>Or</div>
+        <div style={{margin: "0 8px",fontWeight: '700'}}>Or</div>
         <div className={classes.Doctor_SearchBox_doctor_name}>
         <input type="text" placeholder="Enter Doctor Name" name="doctorName" value={doctorName} onChange={handleChange}/>
         </div>
         <button onClick={findDoctor} className={classes.Find_A_Doctor_btn}>Find Doctor</button>
         </div>
-        {
-            foundDoctors.length > 0 ? foundDoctors.map((doc,_)=>(
+        {foundHospitals.length>0  && <h1>Hospitals</h1>}
+        
+            {foundHospitals.length>0 && foundHospitals.map((hosp,_)=>(
+                <HospitalCard key={hosp.id} hospital={hosp} />
+            ))
+        }
+        {foundDoctors && <h1>Doctors</h1>}
+        
+            {foundDoctors && (foundDoctors.length > 0 ? foundDoctors.map((doc,_)=>(
                 <DoctorCard key={_} doctor={doc} />
-            )) : <h1>No doctor Found</h1>
+            )) : <h1>No doctor Found</h1>)
         }
         </div>
     )

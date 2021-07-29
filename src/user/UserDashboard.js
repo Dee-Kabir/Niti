@@ -15,7 +15,6 @@ const UserDashboard = (props) =>{
         loading : false
     })
     const changeComponent = (name) => {
-        console.log(name)
         setValues({...values,info:false,edit:false,appointmentHistory:false,[name]: true})
     }
     const {info,edit,appointmentHistory,user,loading} = values;
@@ -25,8 +24,7 @@ const UserDashboard = (props) =>{
     const loadUser = () => {
         setValues({...values,loading:true})
         getUser(isAuthenticated(),"user").then((data)=>{
-            setValues({...values,user:data,loading:false})
-            console.log(data,"data")
+            setValues({...values,user:data.data(),loading:false})
         })
     }
     return(
@@ -43,7 +41,6 @@ const UserDashboard = (props) =>{
         </div>
         </div>
         <div className={classes.Dashboard_info_column}>
-        <div>
         {!loading  ? <Fragment>
         {info && <ShowUserInfo user={user}  /> }
         {edit && <EditAccountInfo user = {user} props={props} />}
@@ -51,7 +48,6 @@ const UserDashboard = (props) =>{
         </Fragment>
         : <LoadingComponent loading={loading} />
         }
-        </div>
         </div>
         </div>
         

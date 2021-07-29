@@ -28,7 +28,7 @@ const MainHeader = () => {
                 <AuthButton text = "Hospital Login" to="/hospital-auth" />
                 <AuthButton text="Doctor Login" to="/login/doctor" />
                 </Fragment>}
-            {isAuthenticated() && <Link className={classes.User_Avatar} to={typeOfUser()=="client"?`/dashboard/${isAuthenticated()}`:`/hospital-dashboard/${isAuthenticated()}`}>{JSON.parse(localStorage.getItem("userInfo")).name[0].toUpperCase()}</Link> }
+            {isAuthenticated() && <Link className={classes.User_Avatar} to={typeOfUser()==="user"?`/dashboard/${isAuthenticated()}`:(typeOfUser() === "hospital" ? `/hospital-dashboard/${isAuthenticated()}`: `/doctor-dashboard/${isAuthenticated()}`)}>{JSON.parse(localStorage.getItem("userInfo")).name[0].toUpperCase()}</Link> }
             {isAuthenticated() && <Fragment>
                 <div onClick={()=> signout()}><AuthButton text="Logout" to="/"/></div>
                 </Fragment>}

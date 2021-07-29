@@ -14,11 +14,14 @@ import OrganizationDashboard from"./organization/OrganizationDashboard";
 import HospitalRoutes from "./secureRoutes/HospitalRoutes";
 import LoginRoutes from "./secureRoutes/LoginRoutes";
 import MobileAuthRoutes from "./secureRoutes/MobileAuthRoutes";
+import DoctorRoutes from "./secureRoutes/DoctorRoutes";
 import UserRoutes from "./secureRoutes/UserRoutes";
 import UserDashboard from "./user/UserDashboard";
 import NotAuthorised from "./utilities/NotAuthorised";
 import HealthServices from "./components/healthServices/HealthServices";
 import RegisterDoctor from "./doctors/RegisterDoctor";
+import DoctorDashboard from "./doctors/DoctorDashboard";
+import BookAppointment from "./user/BookAppointment";
 const App = () => {
   return (
     <BrowserRouter>
@@ -36,6 +39,8 @@ const App = () => {
     <Route path="/health-services" exact component={HealthServices}/>
     <HospitalRoutes path="/hospital-dashboard/:hospitalId" exact component={OrganizationDashboard} />
     <UserRoutes path="/dashboard/:userId" exact component={UserDashboard} />
+    <UserRoutes path="/appointment/:doctorId" exact component={BookAppointment} />
+    <DoctorRoutes path="/doctor-dashboard/:doctorId" exact component={DoctorDashboard} />
     <Route path="/:" exact component={NotAuthorised} />
     </Switch>
     <Footer/>

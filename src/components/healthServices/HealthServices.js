@@ -2,7 +2,7 @@ import health from "../../assets/Images/home.png"
 import ImageContainer from "../imageContainer/ImageContainer"
 import { Fragment } from "react"
 import ServicesComponent from "../services/ServicesComponent"
-import { Services,Till_Now_Items } from "../../FAQ_sample"
+import { Services } from "../../FAQ_sample"
 import { Divider } from "antd"
 import SelectLiveStocks from "../livestocksForm/SelectLiveStocks"
 const HealthServices = () => {

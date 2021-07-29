@@ -8,15 +8,15 @@ export const isAuthenticated = () => {
 export const authenticateUser = async (token,type) => {
   if (localStorage) {
     localStorage.setItem("user", token);
-    if(type=="user"){
+    if(type==="user"){
       await getUser(token).then((data) => 
       localStorage.setItem("userInfo",JSON.stringify(data.data())))
-    }else if(type == "doctor"){
+    }else if(type === "doctor"){
       await getDoctor(token).then((data) => {
         localStorage.setItem("userInfo",JSON.stringify(data.data()));
       })
     }
-    localStorage.setItem("userType", type == "user" ? "user" : "doctor");
+    localStorage.setItem("userType", type === "user" ? "user" : "doctor");
   }
 };
 export const getDoctor = async(token) => {
@@ -40,7 +40,7 @@ export const getUser = async (id) => {
 };
 export const checkUser = async (id,type) => {
   let result = false;
-  if(type=="user")
+  if(type==="user")
   await checkUserb(id).then((data) => (result = data.exists));
   else
   await checkdoctorb(id).then(data => (result = data.exists))

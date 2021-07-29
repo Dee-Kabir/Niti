@@ -3,7 +3,7 @@ import { Button, Image } from "semantic-ui-react";
 import SearchInput from "../components/search/SearchInput";
 import classes from "./RegisterDoctor.module.css";
 const week = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
-const RegisterDoctorForm = (handleSubmit,handleChange,setValues,values,handlePlaces,doctorPhoto,handleImageChange,qualificationProof,loading) => {
+const RegisterDoctorForm = ({handleSubmit,handleChange,setValues,values,handlePlaces,doctorPhoto,handleImageChange,qualificationProof,loading}) => {
     const {name,email,mobileNumber,qualification,jobType,servingType,workTime,weekDays,address,state,city}=values
     const photoInputRef = useRef(null);
     const proofInputRef = useRef(null);

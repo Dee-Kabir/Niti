@@ -5,46 +5,42 @@ import { getDoctors } from "../actions/firebaseapi";
 import DoctorList from "./DoctorList";
 const Doctors = () => {
   const [values, setValues] = useState({
-    doctors: "",
     error: "",
     loading: "",
   });
   const [show, setShow] = useState("");
-  const { doctors, loading, error } = values;
+  const { loading, error } = values;
+  const [doctors,setDoctors] = useState("")
   useEffect(() => {
     loadDoctors();
   }, []);
-  const loadDoctors = () => {
+  const loadDoctors = async() => {
     try {
       setValues({ ...values, error: "", loading: true });
-      getDoctors(isAuthenticated()).then((data) => {
-        let result = [];
-          data.forEach((key) => 
-          result.push({[key.id]: key.data})
-          )
-          setValues({
-            ...values,
-            error:"",
-            doctors: [...result],
-            loading:false
-          })
-        
+      await getDoctors(isAuthenticated()).then((data) => {
+       setDoctors(data)
+          
       });
+      setTimeout(()=>{
+        setValues({
+          error:"",
+          loading:false
+        })
+      },500)
     } catch {
       setValues({ ...values, error: "Error while connecting", loading: false });
     }
   };
   return (
-    !loading ?
+    !loading ? 
       <div style={{ height: "100vh" }}>
         {error && <p style={{ margin: "32px", color: "red" }}>{error}</p>}
         <ul>
           {doctors.length > 0
             ? doctors.map((doc, i) => {
-              var doc_key = Object.keys(doc)[0]
                 return (
                   <div
-                    key={doc_key}
+                    key={doc.id}
                     style={{
                       width: "100%",
                       display: "flex",
@@ -69,10 +65,10 @@ const Doctors = () => {
                       }}
                     >
                       <div style={{ fontSize: "1.3rem", fontWeight: "500" }}>
-                        Name- {doc[doc_key].name}
+                        Name- {doc.name}
                       </div>
                       <div style={{ fontSize: "1.3rem", fontWeight: "500" }}>
-                        Contact No.- {doc[doc_key].mobileNumber}
+                        Contact No.- {doc.mobileNumber}
                       </div>
                       <div style={{ textAlign: "right" }}>
                         <button
@@ -85,8 +81,8 @@ const Doctors = () => {
                             borderRadius: "4px",
                           }}
                           onClick={() => {
-                            if (show !== doc_key) {
-                              setShow(doc_key);
+                            if (show !== doc.id) {
+                              setShow(doc.id);
                             } else {
                               setShow("");
                             }
@@ -95,9 +91,9 @@ const Doctors = () => {
                           Patients
                         </button>
                       </div>
-                      {show === doc_key && (
+                      {show === doc.id && (
                         <DoctorList
-                          doctorId={doc_key}
+                          doctorId={doc.id}
                         />
                       )}
                     </div>

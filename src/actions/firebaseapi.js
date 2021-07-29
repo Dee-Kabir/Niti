@@ -29,9 +29,9 @@ export const editInfo = async (name,
     return await usersRef.doc(`${id}`).update({name,address,country,state,city})
 }
 
-export const addDoctor = async(hospitalId,doctorId) => {
+export const addDoctor = async(hospitalId,newDoctorKey) => {
   return await hospitalsRef.doc(`${hospitalId}`).update({
-    doctors: firebase.firestore.FieldValue.arrayUnion(doctorId)
+    doctors: firebase.firestore.FieldValue.arrayUnion(newDoctorKey)
   })
 }
 const addDoctortoList = async() => {
@@ -49,19 +49,32 @@ export const addDoctortoHospital = async(hospitalId,doctor_Info,photo) =>{
       })
     })
   })
-  return await addDoctor(hospitalId,newDoctorKey.id)
+  return await addDoctor(hospitalId,newDoctorKey)
 }
 export const getDoctors = async(hospitalId) => {
-  return await doctorsRef.where("hospitalId","==",hospitalId).get()
+  const doctorListInHospital =  await (await hospitalsRef.doc(`${hospitalId}`).get()).data().doctors
+  const doctors = [];
+  await doctorListInHospital.map(doc => 
+    doc.get().then(data => doctors.push({...data.data(),id:data.id}))
+)
+  return doctors
+  // return await doctorsRef.where("hospitalId","==",hospitalId).get()
+}
+export const fectchDoctors = async(doctorListInHospital) => {
+  const doctors =[];
+  await doctorListInHospital.map(doc => 
+    doc.get().then(data => doctors.push({...data.data(),id:data.id}))
+  )
+  return doctors
 }
 export const findDoctorByName = async(name,category) => {
   let value = name.toUpperCase()
   return await doctorsRef.where(`${category}`,"==",`${value}`).get()
 }
 export const uploadFileToFirestore = async(data) => {
-    data.map((d) => {
+    data.map((d) => 
       firebase.firestore().collection("files").doc(`${d.SNo}${d.ADDL}`).set(d)
-    })
+    )
 }
 export const savedoctor = async(name,uid,email,mobileNumber,qualification,jobType,servingType,workTime,weekDays,address,state,city,photo,proof) => {
   const doctorRef = doctorsRef.doc(`${uid}`);
@@ -93,4 +106,8 @@ export const savedoctor = async(name,uid,email,mobileNumber,qualification,jobTyp
       })
     })
   })
+}
+export const findHospitals = async(value,type) => {
+  let val = value.toUpperCase()
+  return await hospitalsRef.where(`${type}`,"==",`${val}`).get()
 }

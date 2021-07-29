@@ -8,7 +8,7 @@ const SearchInput = ({category,name,handlePlaces,placeholder,value}) => {
     },[category])
     const loadData = () => {
         var text;
-        if(name=="country"){
+        if(name==="country"){
             text = "country_name"
         }else if(name =="state"){
             text = "state_name"
