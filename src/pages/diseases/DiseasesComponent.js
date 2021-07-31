@@ -48,18 +48,16 @@ const DiseasesComponent = () => {
   };
   const displaySearchResults = () => {
     return( result &&  <table className="table">
-    {result.slice(from,from+99).length > 0 ?(
+    {result.length > 0 ?(
       <Fragment>
       <thead>
-        <tr className="row">
         <th className="col">Species Name</th>
           
           <th className="col">Disease_Name</th>
           <th className="col">DiseaseSymptoms</th>
-        </tr>
       </thead>
       <tbody>
-        {result.slice(from,from+99).map((d,_) => (
+        {result.map((d,_) => (
             <tr className="row" key={`${d["Disease_Name"]}${_}`}>
               <td className="col">{d["Species_Name"]}</td>
               <td className="col">{d["Disease_Name"]}</td>

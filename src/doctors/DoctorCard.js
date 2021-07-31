@@ -3,20 +3,21 @@ import { Link, Redirect } from "react-router-dom";
 const week = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
 const DoctorCard = ({ doctor }) => {
   const checkAvailability = () => {
-    console.log("checking")
     if(doctor.available){
       if(doctor.jobType == "private"){
         if(doctor.weekDays.includes(week(new Date().getDay()))){
-          <Redirect to={`/appointment/${doctor.id}`} />
+          localStorage.setItem("selectedDoctor",JSON.stringify(doctor))
+          window.location.href = `/appointment/${doctor.id}`
+          
         }else{
-          console.log("Not Available")
+          alert("Doctor Not Available")
         }
       }else{
-        console.log("redirecting")
+        localStorage.setItem("selectedDoctor",JSON.stringify(doctor))
         window.location.href = `/appointment/${doctor.id}`
       }
     }else{
-      console.log("not available")
+      alert("Doctor Not Available")
     }
   }
   return (doctor && 
@@ -43,8 +44,7 @@ const DoctorCard = ({ doctor }) => {
               <i className="material-icons" style={{fontSize:"15px"}}>today</i><b>{doctor.weekDays ? doctor.weekDays:"All working Days"}</b>
             </div><br></br>
             <button onClick={checkAvailability} className="w3-button w3-blue w3-round-xlarge">Book Appointment</button>
-            <br></br>
-            <Link to="#" className="w3-button w3-purple w3-round-xlarge">Video Consult</Link>
+            
           </div>
         </div>
       </div>

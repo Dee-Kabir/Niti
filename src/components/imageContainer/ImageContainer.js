@@ -3,21 +3,21 @@ import { Link } from "react-router-dom";
 import { Carousel } from "antd";
 import { Image } from "semantic-ui-react";
 import { isAuthenticated } from "../../actions/auth";
-const ImageContainer = ({ imageName, mainHeading, desc }) => {
+const ImageContainer = ({ imageName1,imageName2,imageName3, mainHeading, desc }) => {
   return (
     <div className={classes.imageContainer}>
       <Carousel className={classes.imageContainer_bg} autoplay>
         <Image
         className={classes.Carousel_Image}
-          src={imageName}
+          src={imageName1}
         />
         <Image
         className={classes.Carousel_Image}
-          src={imageName}
+          src={imageName2}
         />
         <Image
         className={classes.Carousel_Image}
-          src={imageName}
+          src={imageName3}
         />
       </Carousel>
       <div className={classes.imageContainer_bg_mask}></div>

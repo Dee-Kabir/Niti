@@ -13,14 +13,13 @@ const OrganizationDashboard = (props) => {
         edit: false,
         add: false,
         all:false,
-        appointmentHistory:false,
         user:"",
         loading : false,
         error: ""
     })
     const changeComponent = (name) => {
         console.log(name)
-        setValues({...values,info:false,add:false,edit:false,all:false,appointmentHistory:false,[name]: true})
+        setValues({...values,info:false,add:false,edit:false,all:false,[name]: true})
     }
     const {info,edit,add,all,appointmentHistory,user,loading,error} = values;
     useEffect(()=>{
@@ -73,7 +72,7 @@ const OrganizationDashboard = (props) => {
             {info && <ShowUserInfo user={user}  /> }
             {edit && <EditHospitalInfo values={user} handleChange={handleChange} handlePlaces={handlePlaces} handleSubmit={handleeditSubmit} />}
             {add && <AddDoctor />}
-            {all && <Doctors />}
+            {all && <Doctors doctors = {user.doctors} />}
             </Fragment>
             : <LoadingComponent loading={loading} />
             }

@@ -1,36 +1,34 @@
-import { Fragment, useState, useEffect } from "react";
+import { Fragment, useState, useEffect, Component } from "react";
 import { isAuthenticated } from "../actions/auth";
 import LoadingComponent from "../utilities/LoadingComponent"
-import { getDoctors } from "../actions/firebaseapi";
+import firebase from "../firebase"
 import DoctorList from "./DoctorList";
-const Doctors = () => {
-  const [values, setValues] = useState({
+class Doctors extends Component{
+  state = {
     error: "",
     loading: "",
-  });
-  const [show, setShow] = useState("");
-  const { loading, error } = values;
-  const [doctors,setDoctors] = useState("")
-  useEffect(() => {
-    loadDoctors();
-  }, []);
-  const loadDoctors = async() => {
+    show: "",
+    doctors: []
+  }
+  componentDidMount() {
+    this.loadDoctors();
+  };
+  loadDoctors = async() => {
     try {
-      setValues({ ...values, error: "", loading: true });
-      await getDoctors(isAuthenticated()).then((data) => {
-       setDoctors(data)
-          
-      });
-      setTimeout(()=>{
-        setValues({
+      this.setState({ error: "", loading: true });
+      this.props.doctors.map((doc) => {
+        doc.get().then(data => this.setState((prevState)=>({doctors : [...prevState.doctors,{ ...data.data(),id: data.id}]})))
+      })
+        this.setState({
           error:"",
           loading:false
         })
-      },500)
     } catch {
-      setValues({ ...values, error: "Error while connecting", loading: false });
+      this.setState({ error: "Error while connecting", loading: false });
     }
   };
+  render(){
+    const {loading,error,doctors,show} = this.state
   return (
     !loading ? 
       <div style={{ height: "100vh" }}>
@@ -82,9 +80,9 @@ const Doctors = () => {
                           }}
                           onClick={() => {
                             if (show !== doc.id) {
-                              setShow(doc.id);
+                              this.setState({show : doc.id});
                             } else {
-                              setShow("");
+                              this.setState({show:""});
                             }
                           }}
                         >
@@ -105,5 +103,6 @@ const Doctors = () => {
       </div>
     : <LoadingComponent loading={loading} />
   );
+            }
 };
 export default Doctors;

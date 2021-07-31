@@ -1,3 +1,4 @@
+import { isNull } from "lodash";
 import firebase from "../firebase";
 const usersRef = firebase.firestore().collection("users");
 const doctorsRef = firebase.firestore().collection("doctors");
@@ -51,22 +52,8 @@ export const addDoctortoHospital = async(hospitalId,doctor_Info,photo) =>{
   })
   return await addDoctor(hospitalId,newDoctorKey)
 }
-export const getDoctors = async(hospitalId) => {
-  const doctorListInHospital =  await (await hospitalsRef.doc(`${hospitalId}`).get()).data().doctors
-  const doctors = [];
-  await doctorListInHospital.map(doc => 
-    doc.get().then(data => doctors.push({...data.data(),id:data.id}))
-)
-  return doctors
-  // return await doctorsRef.where("hospitalId","==",hospitalId).get()
-}
-export const fectchDoctors = async(doctorListInHospital) => {
-  const doctors =[];
-  await doctorListInHospital.map(doc => 
-    doc.get().then(data => doctors.push({...data.data(),id:data.id}))
-  )
-  return doctors
-}
+
+
 export const findDoctorByName = async(name,category) => {
   let value = name.toUpperCase()
   return await doctorsRef.where(`${category}`,"==",`${value}`).get()
@@ -76,10 +63,10 @@ export const uploadFileToFirestore = async(data) => {
       firebase.firestore().collection("files").doc(`${d.SNo}${d.ADDL}`).set(d)
     )
 }
-export const savedoctor = async(name,uid,email,mobileNumber,qualification,jobType,servingType,workTime,weekDays,address,state,city,photo,proof) => {
+export const savedoctor = async(name,uid,email,mobileNumber,qualification,speciality,jobType,servingType,workTime,weekDays,address,state,city,photo,proof) => {
   const doctorRef = doctorsRef.doc(`${uid}`);
   return await doctorRef.set({
-    name,email,mobileNumber,qualification,jobType,servingType,workTime,weekDays,address,state,city
+    name,email,mobileNumber,qualification,speciality,jobType,servingType,workTime,weekDays,address,state,city
   }).then(()=>{
     let id = doctorRef.id;
     const storageRefphoto = filesRef.child(id).child("photo").put(photo,"image/jpeg")
@@ -110,4 +97,9 @@ export const savedoctor = async(name,uid,email,mobileNumber,qualification,jobTyp
 export const findHospitals = async(value,type) => {
   let val = value.toUpperCase()
   return await hospitalsRef.where(`${type}`,"==",`${val}`).get()
+}
+export const editDoctor = async(name,email,id,mobileNumber,qualification,jobType,servingType,workTime,weekDays,address,speciality,state,city) => {
+  return await doctorsRef.doc(`${id}`).update({
+    name,email,mobileNumber,qualification,jobType,servingType,workTime,weekDays,address,speciality,state,city
+  })
 }

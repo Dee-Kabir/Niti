@@ -1,10 +1,10 @@
-import { useRef } from "react";
+import { Fragment, useRef } from "react";
 import { Button, Image } from "semantic-ui-react";
 import SearchInput from "../components/search/SearchInput";
 import classes from "./RegisterDoctor.module.css";
 const week = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
-const RegisterDoctorForm = ({handleSubmit,handleChange,setValues,values,handlePlaces,doctorPhoto,handleImageChange,qualificationProof,loading}) => {
-    const {name,email,mobileNumber,qualification,jobType,servingType,workTime,weekDays,address,state,city}=values
+const RegisterDoctorForm = ({handleSubmit,handleChange,setValues,values,handlePlaces,doctorPhoto,handleImageChange,qualificationProof,loading,edit = "false"}) => {
+    const {name,email,mobileNumber,qualification,jobType,servingType,workTime,weekDays,address,state,city,speciality}=values
     const photoInputRef = useRef(null);
     const proofInputRef = useRef(null);
     return(
@@ -92,8 +92,8 @@ const RegisterDoctorForm = ({handleSubmit,handleChange,setValues,values,handlePl
         {
           week && week.map((w,_)=>(
             <div key={w} className={classes.Checkbox_label_input}>
-              <input type="checkbox" checked={weekDays.includes(w)} onChange={()=>{
-                let days = [...weekDays]
+              <input type="checkbox" checked={weekDays ? weekDays.includes(w): false} onChange={()=>{
+                let days = weekDays ? [...weekDays] : []
                 if(days.includes(w)){
                   days.splice(days.indexOf(w),1)
                 }else{
@@ -105,6 +105,17 @@ const RegisterDoctorForm = ({handleSubmit,handleChange,setValues,values,handlePl
             </div>
           ))
         }
+        </div>
+        <div className={classes.RegisterForm_HInput}>
+          <label>Speciality</label>
+          <input
+            type="text"
+            name="speciality"
+            placeholder="Enter doctor's Speciality"
+            value={speciality}
+            onChange={handleChange}
+            required
+          />
         </div>
         <div className={classes.RegisterForm_HInput}>
           <label>Address</label>
@@ -141,6 +152,7 @@ const RegisterDoctorForm = ({handleSubmit,handleChange,setValues,values,handlePl
             />
           </div>
         </div>
+        
         <div className={classes.RegisterForm_HInput}>
           <label>Photo</label>
           <Image
@@ -149,7 +161,7 @@ const RegisterDoctorForm = ({handleSubmit,handleChange,setValues,values,handlePl
             src={doctorPhoto}
             className={classes.Image_form_add_doctor}
           />
-          <Button
+          {!edit && <Fragment><Button
             inverted
             primary
             type="button"
@@ -166,7 +178,7 @@ const RegisterDoctorForm = ({handleSubmit,handleChange,setValues,values,handlePl
             onChange={handleImageChange}
             ref={photoInputRef}
             required
-          />
+          /></Fragment>}
         </div>
         <div className={classes.RegisterForm_HInput}>
           <label>Qualification Proof</label>
@@ -176,7 +188,8 @@ const RegisterDoctorForm = ({handleSubmit,handleChange,setValues,values,handlePl
             src={qualificationProof}
             className={classes.Image_form_add_doctor}
           />
-          <Button
+          {!edit && <Fragment>
+            <Button
             inverted
             primary
             type="button"
@@ -194,6 +207,7 @@ const RegisterDoctorForm = ({handleSubmit,handleChange,setValues,values,handlePl
             ref={proofInputRef}
             required
           />
+            </Fragment>}
         </div>
         <div style={{textAlign:"right"}}>
           <button

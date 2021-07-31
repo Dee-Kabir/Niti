@@ -1,16 +1,12 @@
 .Dashboard{
     min-width: 100vw;
-    min-height: 100vh;
 }
 .Dashboard_block{
     width: 90%;
-    height: 100%;
-    
     margin: 16px auto;
 }
 .Dashboard_row {
     display: flex;
-    height: 100%;
 }
 .Dashboard_menu_column{
     flex-grow: 1;
@@ -22,6 +18,7 @@
     flex-grow: 4;
     background: #fafafa;
     margin-left: 16px;
+    height: auto;
 }
 .Dashboard_menu_items{
     height: 100%;

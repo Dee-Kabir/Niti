@@ -1,31 +1,39 @@
-import { Fragment, useState } from "react"
-import { fectchDoctors } from "../../actions/firebaseapi"
+import { Component, Fragment, useState } from "react"
+import firebase from "../../firebase";
 import DoctorCard from "../../doctors/DoctorCard"
-
-const HospitalCard = ({hospital}) => {
-    const [show,setShow] = useState(false)
-    const [doctorsList,setDoctors] = useState("")
-    const [loading,setLoading] = useState(false)
-    const showHospitalData = async() => {
-        setLoading(true)
-        if(doctorsList.length === 0){
-            await fectchDoctors(hospital.doctors).then((data) => {
-                setDoctors(data)
-                setShow(!show)
-                setTimeout(()=>{
-                    setLoading(false)
-                  },1000)
-            })
-        }else{
-            setShow(!show)
-        }
+const doctorsRef = firebase.firestore().collection("doctors"); 
+class HospitalCard extends Component{
+  state = {
+    show : false,
+    doctorsList : [],
+    loading : false
+  }
+  showHospitalData = async() => {
+    if(this.state.doctorsList.length === 0){
+      this.setState({loading:true})
+    this.props.hospital.doctors.map((data) => 
+    data.get().then((doc) => {
+      let docData = doc.data();
+      docData.appointments = undefined
+      docData["id"] = doc.id
+      this.setState((prevList)=> ({doctorsList:[...prevList.doctorsList,{
+      ...docData
+    }]}))})
+    )
+    this.setState({loading:false})
+  }
+  this.setState({show: !this.state.show})
+    
     }
-    const doctors = () => {
-        return(doctorsList && doctorsList.map((doc,_)=>(
+    doctors = () => {
+        return(this.state.doctorsList.length > 0 && this.state.doctorsList.map((doc,_)=>(
             <DoctorCard doctor={doc} key={doc.id} />
         ))
         )
     }
+    render(){
+      const {doctorsList,loading,show} = this.state;
+      const {hospital} = this.props
     return(
         <Fragment>
       <div
@@ -59,7 +67,7 @@ const HospitalCard = ({hospital}) => {
             Mobile Number : {hospital.mobileNumber}
           </div>
           <button
-          onClick={showHospitalData}
+          onClick={this.showHospitalData}
             style={{
               padding: "8px",
               background: "rgb(0,53,128)",
@@ -76,11 +84,12 @@ const HospitalCard = ({hospital}) => {
       </div>
       {
           show && <div style={{border:'2px solid #888',width:'95%',margin:'auto'}}>
-          <h2 style={{fontWeight:'700'}}>Doctors in hospital {hospital.name}</h2>
-          {show && hospital && doctors()}
+          <h2 style={{fontWeight:'700',textAlign:'center'}}>Doctors in hospital {hospital.name}</h2>
+          {show && hospital && this.doctors()}
           </div>
       }
     </Fragment>
     )
+    }
 }
 export default HospitalCard

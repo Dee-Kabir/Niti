@@ -52,7 +52,7 @@ const RegisterDoctor = (props) => {
   const checkmobileNUmber = () => {
     let number_mo = localStorage.getItem("mobileRegister");
     if(number_mo){
-      setValues({...values,mobileNumber: localStorage.getItem("mobileRegister").substr(3,10)})
+      setValues({...values,mobileNumber: localStorage.getItem("mobileRegister")})
     }else{
       props.location.replace(`/login/doctor`);
     }
@@ -70,7 +70,7 @@ const RegisterDoctor = (props) => {
     setLoading(true);
     const uid = props.match.params.userId
     // if(name && email && mobileNumber && qualification && jobType && servingType && workTime && weekDays.length > 0 && consultingTime && speciality && address && state && city && photo && proof){
-      savedoctor(name,uid,email,mobileNumber,qualification,jobType,servingType,workTime,weekDays,address,state,city,photo,proof).then(()=>{
+      savedoctor(name,uid,email,mobileNumber,qualification,speciality,jobType,servingType,workTime,weekDays,address,state,city,photo,proof).then(()=>{
         setLoading(false)
         props.location.replace("/");
         authenticateUser(uid,"doctor")
