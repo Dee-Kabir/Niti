@@ -41,8 +41,24 @@
     padding: 32px;
     color: white;
 }
+
 .Footer_copyright{
     color: whitesmoke;
     font-size: 14px;
     margin-bottom: 32px;
+}
+@media (max-width : 400px){
+    .Footer_logo{
+        padding: 0px;
+        font-size: 1rem;
+    }
+    .Footer_copyright{
+        margin-bottom: 8px;
+    }
+    .Footer_menus{
+        display: none;
+    }
+    .Footer_block{
+        padding: 8px;
+    }
 }

@@ -1,7 +1,6 @@
 import { Fragment } from "react"
 import { Services,Till_Now_Items } from "./FAQ_sample"
 import ImageContainer from "./components/imageContainer/ImageContainer"
-import HomeBackground from "./assets/Images/Home_consult.jpg"
 import WhyUs from "./components/imageContainer/WhyUs"
 import FaqContainer from "./components/imageContainer/FaqContainer"
 import ServicesComponent from "./components/services/ServicesComponent"

@@ -41,7 +41,7 @@ const App = () => {
     <UserRoutes path="/dashboard/:userId" exact component={UserDashboard} />
     <UserRoutes path="/appointment/:doctorId" exact component={BookAppointment} />
     <DoctorRoutes path="/doctor-dashboard/:doctorId" exact component={DoctorDashboard} />
-    <Route path="/:" exact component={NotAuthorised} />
+    <Route path="/:" component={NotAuthorised} />
     </Switch>
     <Footer/>
     </BrowserRouter>

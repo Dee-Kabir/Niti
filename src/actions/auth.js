@@ -64,8 +64,8 @@ export const register = async ({
     name: name,
     mobileNumber: '+91'+mobileNumber,
     address: address,
-    state: state,
-    city: city,
+    state: state.toUpperCase(),
+    city: city.toUpperCase(),
   });
 };
 export const registerHospital = async(hospital_Info,id) => {

@@ -50,7 +50,7 @@ const AddDoctor = () => {
         try{
             if(name && email && mobileNumber.length == 10 && address && city && state){
               setLoading(true)
-            addDoctortoHospital(isAuthenticated(),{name,email,mobileNumber:'+91'+mobileNumber,address,city,state},photo).then((data) => {
+            addDoctortoHospital(isAuthenticated(),{name: name.toUpperCase(),email,mobileNumber:'+91'+mobileNumber,address,city:city.toUpperCase(),state:state.toUpperCase},photo).then((data) => {
               setLoading(false)
               setError("")
               window.location.href = "/"

@@ -3,9 +3,9 @@
 }
 .Doctors_flow{
     width: 100%;
-    padding: 20px;
+    padding: 16px;
     background: rgb(85,26,139);
-    height: 300px;
+    height: auto;
 }
 .table_name {
     padding: 2px;
@@ -22,6 +22,7 @@
 .Doctors_flow_points{
     display: flex;
     justify-content: space-evenly;
+    flex-wrap: wrap;
 }
 .Doctors_flow_point{
     padding: 16px;
@@ -31,7 +32,7 @@
     font-weight: 500;
     margin: 16px;
     border-radius: 8px;
-    width: 200px;
+    width: 170px;
 }
 .Doctor_SearchBox_Heading {
     text-align: center;
@@ -45,24 +46,32 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-wrap: wrap;
 }
 .Doctor_SearchBox_state {
     width: 25%;
     height: 38px;
+    min-width: 170px;
+    margin-top: 8px;
 }
 .Doctor_SearchBox_city{
     width: 25%;
     height: 38px;
+    min-width: 170px;
+    margin-top: 8px;
 }
 .Doctor_SearchBox_doctor_name{
     width: 30%;
     height: 38px;
+    min-width: 190px;
+    margin-top: 8px;
 }
 .Doctor_SearchBox_doctor_name > input {
     width: 100%;
     height: 100%;
     border: none;
     border-bottom: 2px solid #888;
+    margin-top: 8px;
 }
 .Find_A_Doctor_btn{
     padding: 8px;
@@ -71,6 +80,7 @@
     border: none;
     border-radius: 4px;
     margin-left: 16px;
+    margin-top: 8px;
 }
 .SearchResults {
     margin: 32px auto;

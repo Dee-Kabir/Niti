@@ -5,7 +5,7 @@ const DoctorCard = ({ doctor }) => {
   const checkAvailability = () => {
     if(doctor.available){
       if(doctor.jobType == "private"){
-        if(doctor.weekDays.includes(week(new Date().getDay()))){
+        if(doctor.weekDays.includes(week[new Date().getDay()])){
           localStorage.setItem("selectedDoctor",JSON.stringify(doctor))
           window.location.href = `/appointment/${doctor.id}`
           

@@ -1,7 +1,7 @@
 import firebase from "../../firebase"
 import { Fragment, useEffect, useState } from "react";
 import LoadingComponent from "../../utilities/LoadingComponent";
-
+import { Input, Label, Table, TableBody,Grid, Header, GridColumn,Button, Form } from "semantic-ui-react";
 const DiseasesComponent = () => {
   const [data, setdata] = useState("");
   const [loading,setLoading] = useState(false);
@@ -47,95 +47,84 @@ const DiseasesComponent = () => {
    
   };
   const displaySearchResults = () => {
-    return( result &&  <table className="table">
+    return( result &&  <Table celled>
     {result.length > 0 ?(
       <Fragment>
-      <thead>
-        <th className="col">Species Name</th>
-          
-          <th className="col">Disease_Name</th>
-          <th className="col">DiseaseSymptoms</th>
-      </thead>
-      <tbody>
+      <Table.Header>
+      <Table.Row>
+          <Table.HeaderCell>Species Name</Table.HeaderCell>    
+          <Table.HeaderCell>Disease_Name</Table.HeaderCell>
+          <Table.HeaderCell>DiseaseSymptoms</Table.HeaderCell>
+        </Table.Row>
+      </Table.Header>
+      <Table.Body>
         {result.map((d,_) => (
-            <tr className="row" key={`${d["Disease_Name"]}${_}`}>
-              <td className="col">{d["Species_Name"]}</td>
-              <td className="col">{d["Disease_Name"]}</td>
-              <td className="col">{d["DiseaseSymptoms"]}</td>
-            </tr>
+            <Table.Row className="row" key={`${d["Disease_Name"]}${_}`}>
+              <Table.Cell >{d["Species_Name"]}</Table.Cell>
+              <Table.Cell >{d["Disease_Name"]}</Table.Cell>
+              <Table.Cell >{d["DiseaseSymptoms"]}</Table.Cell>
+            </Table.Row>
           ))}
-      </tbody>
+      </Table.Body>
       </Fragment>
       ) : (
-        <tbody>
-        <tr
-          style={{ fontSize: "1.4rem", fontWeight: "600", padding: "16px" }}
-        >
-          <td>No data Present</td>
-        </tr>
-        </tbody>
+        <Table.Body>
+        <Table.Row>
+          <Table.Cell>No data Present</Table.Cell>
+        </Table.Row>
+        </Table.Body>
       )}
-  </table>
+  </Table>
     )
   }
   const displayList = () => {
-    return( data &&  <table className="table">
+    return( data &&  <Table celled>
     {data.slice(from,from+99).length > 0 ?(
       <Fragment>
-      <thead>
-        <tr className="row">
-        <th className="col">Species Name</th>
-          
-          <th className="col">Disease_Name</th>
-          <th className="col">DiseaseSymptoms</th>
-        </tr>
-      </thead>
-      <tbody>
+      <Table.Header>
+        <Table.Row>
+        <Table.HeaderCell >Species Name</Table.HeaderCell>
+          <Table.HeaderCell >Disease_Name</Table.HeaderCell>
+          <Table.HeaderCell >DiseaseSymptoms</Table.HeaderCell>
+        </Table.Row>
+      </Table.Header>
+      <TableBody>
         {data.slice(from,from+99).map((d,_) => (
-            <tr className="row" key={`${d["Disease_Name"]}${_}`}>
-              <td className="col">{d["Species_Name"]}</td>
-              <td className="col">{d["Disease_Name"]}</td>
-              <td className="col">{d["DiseaseSymptoms"]}</td>
-            </tr>
+            <Table.Row  key={`${d["Disease_Name"]}${_}`}>
+              <Table.Cell >{d["Species_Name"]}</Table.Cell>
+              <Table.Cell >{d["Disease_Name"]}</Table.Cell>
+              <Table.Cell >{d["DiseaseSymptoms"]}</Table.Cell>
+            </Table.Row>
           ))}
-      </tbody>
+      </TableBody>
       </Fragment>
       ) : (
-        <tbody>
-        <tr
-          style={{ fontSize: "1.4rem", fontWeight: "600", padding: "16px" }}
-        >
-          <td>No data Present</td>
-        </tr>
-        </tbody>
+        <TableBody>
+        <Table.Row>
+          <Table.Cell>No data Present</Table.Cell>
+        </Table.Row>
+        </TableBody>
       )}
-  </table>
+  </Table>
     )
   }
+  const controlButtons = () => (
+    <Grid.Row columns={2} stretched className="m-4">
+<Grid.Column ><Button secondary onClick={() => {from >= 100 ? setFrom(from - 100) : setFrom(0)}} >Previous</Button></Grid.Column>
+<Grid.Column ><Button positive onClick={() => {from < (data.length-99)? setFrom(from + 100):setFrom(0)}} >Next</Button></Grid.Column>
+</Grid.Row>
+  )
   return (!loading ? data &&
-    <div style={{ padding: "2px", margin: "32px" }}>
-    <div style={{display:'flex',width:'100%'}}>
-    <label style={{width:'30%',fontSize:'1.2rem',fontWeight:'500'}}>Breed Name or Disease Name</label>
-    <input name="searchTerm" value={searchterm} onChange={handleSearchChange} type="text" style={{width:'70%'}} placeholder="Enter Breed name or disease name" />
-    </div>
-    <div style={{fontSize:'2rem',fontWeight:'600',textAlign:'center',margin:'16px'}}>List of Diseases with Symptoms</div>
-      
-      {searchterm.length > 0 ? displaySearchResults() : displayList()}
-      <div>
-      <button onClick={() => {from >= 100 ? setFrom(from - 100) : setFrom(0)
-        
-      }} >Previous</button>
-      <button onClick={() => {from < (data.length-99)? setFrom(from + 100):setFrom(0)
-      }} >Next</button>
-    </div>
-    </div> : <div style={{width:'100%',height:'100vh'}}><LoadingComponent loading={loading} /></div>
-  );
+    <Grid className="m-4">
+    <Grid.Row stretched>
+    <Form.Input style={{width: '50%',marginLeft:"16px"}} label="Disease or Breed Name" name="searchTerm" value={searchterm} onChange={handleSearchChange} type="text" placeholder="Enter breed or disease name" />
+    </Grid.Row>
+    <Grid.Row><Header>List of Diseases with Symptoms</Header>
+
+    {searchterm.length > 0 ? displaySearchResults() : displayList()}
+    </Grid.Row>
+      {controlButtons()}
+    </Grid> : <LoadingComponent loading={loading} />
+  )
 };
 export default DiseasesComponent;
-{/*
-<div>
-      <button onClick={() => {from >= 100 ? setFrom(from - 100) : setFrom(0)
-      }} >Previous</button>
-      <button onClick={() => {from < (data.length - 50) ? setFrom(from + 100) : setFrom(0)
-      }} >Next</button>
-    </div>*/}

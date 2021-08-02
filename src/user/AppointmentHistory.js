@@ -2,6 +2,7 @@ import { Component, useEffect, useRef, useState } from "react";
 import {isAuthenticated} from "../actions/auth"
 import LoadingComponent from "../utilities/LoadingComponent"
 import firebase from "../firebase";
+import { Link } from "react-router-dom";
 const usersRef = firebase.firestore().collection("users");
 class AppointmentHistory extends Component {
     state = {appointments: [],
@@ -40,6 +41,7 @@ class AppointmentHistory extends Component {
                 <td>{app.doctorName}</td>
                 <td>{app.token}</td>
                 <td>{app.completed ? "Yes" : "No"}</td>
+                <td>{app.completed ? <Link to="#">Raise issue</Link> : <Link to={`/chat/${app.doctorId}/${isAuthenticated()}`}>Chat</Link>}</td>
                 </tr>
             ))
         }

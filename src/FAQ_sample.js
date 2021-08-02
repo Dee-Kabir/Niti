@@ -20,51 +20,55 @@ export const FAQs = [
 ];
 export const Services = [
     {
-        "title": "Health Services",
+        "title": "PashuPedia",
         "desc": "We provide best health service for your livestock.A great team here is ready for serving you 24 X 7.",
-        "link" : "/health-services"
+        "link" : "https://dahd.nic.in/pashupdia"
     },
     {
         "title": "Vaccination",
-        "desc" : "We have a wide range of vaccines for different Livestock and a large team which works on new Vaccines."
+        "desc" : "We have a wide range of vaccines for different Livestock and a large team which works on new Vaccines.",
+        "link" : "#"
     },
     {
         "title": "Artificial Insemination",
-        "desc" : "We have the latest technology for Artificial Insemination of the various livestock.You can contact the support 24 X 7."
+        "desc" : "We have the latest technology for Artificial Insemination of the various livestock.You can contact the support 24 X 7.",
+        "link" : "#"
     },
     {
-        "title": "Schemes and Nodal Officers",
-        "desc" : "There are various Schemes for farmers benefit provided by state and central government. You can get Information about them by your Nodal Officer."
+        "title": "Schemes",
+        "desc" : "There are various Schemes for farmers benefit provided by state and central government. You can get Information about them by your Nodal Officer.",
+        "link" : "https://dahd.nic.in/schemes_programmes"
     },
     {
         "title": "Pashu Credit Card",
         "desc" : "Pashu Credit Card is for getting instant money for getting fodder for your livestocks and various other things without much hassle.",
-        
+        "link" : "#"
     },
     {
         "title": "Insurance",
-        "desc" : "State and Central Government has various schemes for Insuring your livestocks from various unfavourable circumstances."
+        "desc" : "State and Central Government has various schemes for Insuring your livestocks from various unfavourable circumstances.",
+        "link" : "#"
     }
 ]
 export const Till_Now_Items = [
     {
         "title" : "Consultation Completed",
-        "desc" : "123456"
+        "docName" : "consultationCompleted"
     },
     {
         "title":"Vaccines Administered",
-        "desc": "123456"
+        "docName" : "vaccineAdministered"
     },
     {
         "title" : "Insemination Completed",
-        "desc" : "123456"
+        "docName" : "inseminationCompleted"
     },
     {
         "title":"Credit Cards",
-        "desc": "123456"
+        "docName" : "creditCards"
     },
     {
         "title":"Insurance rolled out",
-        "desc": "123456"
+        "docName" : "insuranceRolledOut"
     },
 ]

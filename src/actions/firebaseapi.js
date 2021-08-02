@@ -23,11 +23,11 @@ export const editHospitalInfo = async(data,id) => {
 }
 export const editInfo = async (name,
   address,
-  country,
   state,
   city,
   id,) => {
-    return await usersRef.doc(`${id}`).update({name,address,country,state,city})
+    
+    return await usersRef.doc(`${id}`).update({name: name.toUpperCase(),address,state: state.toUpperCase(),city:city.toUpperCase()})
 }
 
 export const addDoctor = async(hospitalId,newDoctorKey) => {
@@ -66,7 +66,8 @@ export const uploadFileToFirestore = async(data) => {
 export const savedoctor = async(name,uid,email,mobileNumber,qualification,speciality,jobType,servingType,workTime,weekDays,address,state,city,photo,proof) => {
   const doctorRef = doctorsRef.doc(`${uid}`);
   return await doctorRef.set({
-    name,email,mobileNumber,qualification,speciality,jobType,servingType,workTime,weekDays,address,state,city
+    name:name.toUpperCase(),email: email,
+    mobileNumber,qualification,speciality,jobType,servingType,workTime,weekDays,address,state:state.toUpperCase(),city:city.toUpperCase()
   }).then(()=>{
     let id = doctorRef.id;
     const storageRefphoto = filesRef.child(id).child("photo").put(photo,"image/jpeg")
@@ -100,6 +101,6 @@ export const findHospitals = async(value,type) => {
 }
 export const editDoctor = async(name,email,id,mobileNumber,qualification,jobType,servingType,workTime,weekDays,address,speciality,state,city) => {
   return await doctorsRef.doc(`${id}`).update({
-    name,email,mobileNumber,qualification,jobType,servingType,workTime,weekDays,address,speciality,state,city
+    name:name.toUpperCase(),email,mobileNumber,qualification,jobType,servingType,workTime,weekDays,address,speciality,state: state.toUpperCase(),city: city.toUpperCase()
   })
 }

@@ -23,17 +23,23 @@ class PendingAppointments extends Component {
         this.setState({loading:true})
         const doctorsRef = firebase.firestore().collection('doctors').doc(`${isAuthenticated()}`)
         const appointmentRef = firebase.firestore().collection('appointment').doc(`${id}`)
+        const tillNowRecordsRef = firebase.firestore().collection('tillNowRecords').doc('records')
         firebase.firestore().runTransaction(async(transaction) =>{
             const docTransaction = await transaction.get(doctorsRef)
             if(!docTransaction){
                 this.setState({error: "Sorry error occurred"})
             }else{
+                const tillNowtransaction = await transaction.get(tillNowRecordsRef)
+                var newBookingNumbers = tillNowtransaction.data().consultationCompleted +1
                 transaction.update(doctorsRef,
                     {appointments : firebase.firestore.FieldValue.arrayRemove(appointmentRef),
                     completedAppointments: firebase.firestore.FieldValue.arrayUnion(appointmentRef)})
                     .update(appointmentRef,{
                         completed: true,
                         completedTime : firebase.firestore.FieldValue.serverTimestamp()
+                    })
+                    .update(tillNowRecordsRef,{
+                        consultationCompleted : newBookingNumbers
                     })
             }
         }).then(()=>{

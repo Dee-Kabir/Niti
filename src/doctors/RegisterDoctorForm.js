@@ -3,8 +3,8 @@ import { Button, Image } from "semantic-ui-react";
 import SearchInput from "../components/search/SearchInput";
 import classes from "./RegisterDoctor.module.css";
 const week = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
-const RegisterDoctorForm = ({handleSubmit,handleChange,setValues,values,handlePlaces,doctorPhoto,handleImageChange,qualificationProof,loading,edit = "false"}) => {
-    const {name,email,mobileNumber,qualification,jobType,servingType,workTime,weekDays,address,state,city,speciality}=values
+const RegisterDoctorForm = ({handleSubmit,handleChange,setValues,values,handlePlaces,doctorPhoto,handleImageChange,qualificationProof,loading,edit = false}) => {
+    const {name,email,mobileNumber,qualification,jobType,servingType,workTime,weekDays,address,state,city,fee,speciality}=values
     const photoInputRef = useRef(null);
     const proofInputRef = useRef(null);
     return(
@@ -113,6 +113,18 @@ const RegisterDoctorForm = ({handleSubmit,handleChange,setValues,values,handlePl
             name="speciality"
             placeholder="Enter doctor's Speciality"
             value={speciality}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className={classes.RegisterForm_HInput}>
+          <label>Fee</label>
+          <input
+            type="number"
+            min = {1}
+            name="fee"
+            placeholder="Enter doctor's fee"
+            value={fee}
             onChange={handleChange}
             required
           />

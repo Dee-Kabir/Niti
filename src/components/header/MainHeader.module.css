@@ -5,6 +5,18 @@
     padding: 0px 32px;
     box-shadow: 2px 2px #888;
 }
+.mobileHeader{
+    display: none !important;
+}
+@media (max-width: 400px) {
+    .Header{
+        display: none;
+    }
+    .mobileHeader{
+        display: flex !important ;
+    }
+}
+
 .Header_Logo_Block{
     margin: 0px;
     padding: 20px;

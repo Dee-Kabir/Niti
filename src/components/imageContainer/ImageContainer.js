@@ -26,7 +26,7 @@ const ImageContainer = ({ imageName1,imageName2,imageName3, mainHeading, desc })
       </div>
       <div className={classes.ImageContainer_desc}>{desc}</div>
       {!isAuthenticated() && <div className={classes.ImageContainer_btns}>
-      <Link to="/login" className={classes.ImageContainer_btn}>
+      <Link to="/login/user" className={classes.ImageContainer_btn}>
           For Users 
       </Link>
       <Link

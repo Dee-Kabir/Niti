@@ -1,15 +1,25 @@
-import { useState,Fragment } from "react";
+import { useState,Fragment, useEffect } from "react";
 import { findDoctorByName, findHospitals } from "../actions/firebaseapi";
 import SearchInput from "../components/search/SearchInput"
 import classes from "./Doctors.module.css"
 import DoctorCard from "./DoctorCard"
 import HospitalCard from "../components/cards/HospitalCard";
+import { isAuthenticated } from "../actions/auth";
+import { Grid, Header, Input } from "semantic-ui-react";
+import ErrorComponent from "../utilities/ErrorComponent"
+import { Alert } from "antd";
 const DoctorSearchBox = () => {
     const [values,setValues] = useState({
         state: "",
         city: "",
         error: ""
     })
+    useEffect(()=>{
+        if(isAuthenticated()){
+            const cityName = JSON.parse(localStorage.getItem("userInfo")).city
+        findDoctors(cityName,"city");
+        }
+    },[])
     const {state,city,error} = values;
     const [doctorName,setDoctorName] = useState("")
     const [foundPrivateDoctors,setFindPrivateDoctors] = useState("")
@@ -61,41 +71,39 @@ const DoctorSearchBox = () => {
         })
     }
     return(
-        <div style={{width: '100%'}}>
-        <div className={classes.Doctor_SearchBox_Heading}>Find a Doctor</div>
-        {error && <p style={{fontSize:"1.2rem",color:'red'}}>{error}</p>}
+        <Grid stackable className="m-3">
+        <Header size="large">Find a Doctor </Header>
+        <ErrorComponent error={error} />
         <div className={classes.Doctor_SearchBox}>
         <div className={classes.Doctor_SearchBox_state}>
         <SearchInput category="states/India" value={state} name="state" handlePlaces={handlePlaces} placeholder="state" />
         </div>
+        <div style={{margin: "0 8px",fontWeight: '700'}}>Or</div>
         <div className={classes.Doctor_SearchBox_city}>
         <SearchInput category={state ? `cities/${state}`: false} value={city} name="city" handlePlaces={handlePlaces} placeholder="city" />
         </div>
         <div style={{margin: "0 8px",fontWeight: '700'}}>Or</div>
         <div className={classes.Doctor_SearchBox_doctor_name}>
-        <input type="text" placeholder="Enter Doctor Name" name="doctorName" value={doctorName} onChange={handleChange}/>
+        <Input style={{width:'100%'}} type="text" placeholder="Enter Doctor Name" name="doctorName" value={doctorName} onChange={handleChange}/>
         </div>
         <button onClick={findDoctor} className={classes.Find_A_Doctor_btn}>Find Doctor</button>
         </div>
         {foundHospitals.length>0  && <h1>Hospitals</h1>}
-        
             {foundHospitals.length>0 && foundHospitals.map((hosp,_)=>(
                 <HospitalCard key={hosp.id} hospital={hosp} />
             ))
         }
         {foundGovernmentDoctors.length > 0 ? <Fragment><h1>Government Doctors</h1>
-        
             {foundGovernmentDoctors.map((doc,_)=>(
                 <DoctorCard key={_} doctor={doc} />
-            )) }</Fragment>: foundGovernmentDoctors && <h1>No Government doctor Found</h1>
+            )) }</Fragment>: foundGovernmentDoctors && <Alert className="mt-4" type="info" message="No Government doctor Found"/>
         }
         {foundPrivateDoctors.length > 0 ? <Fragment><h1>Private Doctors</h1>
-        
             {foundPrivateDoctors.map((doc,_)=>(
                 <DoctorCard key={_} doctor={doc} />
-            )) }</Fragment>: foundPrivateDoctors && <h1>No doctor Found</h1>
+            )) }</Fragment>: foundPrivateDoctors && <Alert className="mt-4" type="info" message="No doctor Found"/>
         }
-        </div>
+        </Grid>
     )
 }
 export default DoctorSearchBox;

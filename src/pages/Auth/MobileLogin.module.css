@@ -1,17 +1,17 @@
 .authContainer {
-    height: 100vh;
+    height: 70vh;
     width: 100vw;
-    background: #eee;
+    background: #fcfcfc;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 .auth_input_container{
-    height: 350px;
+    height: auto;
     width: 500px;
     background: white;
     border-radius: 8px;
-    box-shadow: 5px 5px 8px 2px #888;
+    box-shadow: 5px 5px 20px rgb(85,39,194);
 }
 .register_heading{
     width: 100%;
@@ -20,17 +20,11 @@
     margin-top: 50px;
 }
 .mobile_number_input{
-    width: 90%;
     height: 36px;
-    border: none;
-    border-bottom: 1px solid black;
     margin-top: 10px;
     font-size: 18px;
     letter-spacing: 2px;
     -moz-appearance: none;
-}
-.mobile_number_input:focus-visible {
-    outline: 0px;
 }
 .GET_OTP_btn{
     width: 90%;
@@ -43,4 +37,9 @@
     cursor: pointer;
     border-radius: 4px;
     font-weight: 600;
+}
+@media (max-width: 400px) {
+    .auth_input_container{
+        width: 90%;
+    }
 }

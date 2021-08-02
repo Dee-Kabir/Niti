@@ -51,6 +51,7 @@ const BookAppointment = (props) => {
                 bookAppointmentWithDoctor()
             }else{
                 alert("You will be redirected to payment gateway")
+                bookAppointmentWithDoctor()
             }
             
         }else{
@@ -59,9 +60,12 @@ const BookAppointment = (props) => {
     }
     return (
         <div>
+        {error && <h2>{error}</h2>}
         <form onSubmit={handleSubmit}>
         <div>write Book in the below box</div>
-        <input type="text" value={text} onChange={(e)=> setText(e.target.value)} />
+        <input type="text" value={text} onChange={(e)=> {setText(e.target.value)
+        setError("")
+        }} />
         <button type="submit" onClick={handleSubmit}>Submit</button>
         </form>
         </div>

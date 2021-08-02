@@ -1,7 +1,7 @@
 import firebase from "../../firebase"
 import { Fragment, useEffect, useState } from "react";
 import LoadingComponent from "../../utilities/LoadingComponent";
-
+import { Form, Table, Grid, GridRow,Header} from "semantic-ui-react";
 const Diagonstics = () => {
   const [data, setdata] = useState("");
   const [loading,setLoading] = useState(false);
@@ -46,112 +46,92 @@ const Diagonstics = () => {
     setResult(searchResults)
    
   };
+  const tableHeader = () => {
+    return<Table.Header>
+        <Table.Row >
+        <Table.HeaderCell >SNo</Table.HeaderCell>
+        <Table.HeaderCell >ADDL</Table.HeaderCell>
+        <Table.HeaderCell >State Name</Table.HeaderCell>
+        <Table.HeaderCell >District Name</Table.HeaderCell>
+        <Table.HeaderCell >Person Name</Table.HeaderCell>
+        <Table.HeaderCell >Mobile</Table.HeaderCell>
+        <Table.HeaderCell >Fax No</Table.HeaderCell>
+        <Table.HeaderCell >EMail</Table.HeaderCell>
+        <Table.HeaderCell >Contact No</Table.HeaderCell>
+        </Table.Row>
+      </Table.Header>
+    
+  }
   const displaySearchResults = () => {
-    return( result && <table className="table">
+    return( result && <Table celled>
         {result.length > 0 ? (
           <Fragment>
-      <thead>
-        <tr className="row">
-        <th className="col">SNo</th>
-        <th className="col">ADDL</th>
-        <th className="col">State Name</th>
-        <th className="col">District Name</th>
-        <th className="col">Person Name</th>
-        <th className="col">Mobile</th>
-        <th className="col">Fax No</th>
-        <th className="col">EMail</th>
-        <th className="col">Contact No</th>
-        </tr>
-      </thead>
-    <tbody>
+      {tableHeader()}
+    <Table.Body>
       {
         result.map((d,_) => (
-          <tr className="row" key={`${d["ADDL"]}${_}`}>
-          <td className="col">{d["SNo"]}</td>
-          <td className="col">{d["ADDL"]}</td>
-          <td className="col">{d["State Name"]}</td>
-          <td className="col">{d["District Name"]}</td>
-          <td className="col">{d["Person Name"]}</td>
-          <td className="col">{d["Mobile"]}</td>
-        <td className="col">{d["Fax No"]}</td>
-        <td className="col">{d["EMail"]}</td>
-        <td className="col">{d["Contact No"]}</td>
-          </tr>
+          tableDataRow(d)
         ))}
-        </tbody>
+        </Table.Body>
       </Fragment>
           ) : (
-            <tbody>
-        <tr
-          style={{ fontSize: "1.4rem", fontWeight: "600", padding: "16px" }}
-        >
-          <td>No Diagonstic Laboratory Present</td>
-        </tr>
-        </tbody>)}
-      </table>
+            <Table.Body>
+        <Table.Row>
+          <Table.Cell>No Diagonstic Laboratory Present</Table.Cell>
+        </Table.Row>
+        </Table.Body>)}
+      </Table>
     )
   }
+  const tableDataRow = (d,_) =>{
+    return <Table.Row key={`${d["ADDL"]}${_}`}>
+    <Table.Cell >{d["SNo"]}</Table.Cell>
+    <Table.Cell >{d["ADDL"]}</Table.Cell>
+    <Table.Cell >{d["State Name"]}</Table.Cell>
+    <Table.Cell >{d["District Name"]}</Table.Cell>
+    <Table.Cell >{d["Person Name"]}</Table.Cell>
+    <Table.Cell >{d["Mobile"]}</Table.Cell>
+  <Table.Cell >{d["Fax No"]}</Table.Cell>
+  <Table.Cell >{d["EMail"]}</Table.Cell>
+  <Table.Cell >{d["Contact No"]}</Table.Cell>
+    </Table.Row>
+  }
   const displayList = () => {
-    return ( data && <table className="table">
+    return ( data && <Table celled>
     {data.length > 0 ? (
       <Fragment>
-      <thead>
-        <tr className="row">
-        <th className="col">SNo</th>
-        <th className="col">ADDL</th>
-        <th className="col">State Name</th>
-        <th className="col">District Name</th>
-        <th className="col">Person Name</th>
-        <th className="col">Mobile</th>
-        <th className="col">Fax No</th>
-        <th className="col">EMail</th>
-        <th className="col">Contact No</th>
-        </tr>
-      </thead>
-    <tbody>
+      {tableHeader()}
+    <Table.Body>
       {
         data.map((d,_) => (
-          <tr className="row" key={`${d["ADDL"]}${_}`}>
-          <td className="col">{d["SNo"]}</td>
-          <td className="col">{d["ADDL"]}</td>
-          <td className="col">{d["State Name"]}</td>
-          <td className="col">{d["District Name"]}</td>
-          <td className="col">{d["Person Name"]}</td>
-          <td className="col">{d["Mobile"]}</td>
-        <td className="col">{d["Fax No"]}</td>
-        <td className="col">{d["EMail"]}</td>
-        <td className="col">{d["Contact No"]}</td>
-          </tr>
+          tableDataRow(d,_)
         ))}
-        </tbody>
+        </Table.Body>
       </Fragment>
       ) : (
-        <tbody>
-        <tr
-          style={{ fontSize: "1.4rem", fontWeight: "600", padding: "16px" }}
-        >
-          <td>No Diagonstic Laboratory Present</td>
-        </tr>
-        </tbody>
+        <Table.Body>
+        <Table.Row>
+          <Table.Cell>No Diagonstic Laboratory Present</Table.Cell>
+        </Table.Row>
+        </Table.Body>
       )}
     
-  </table>
+  </Table>
 
     )
   }
   return (!loading ? data && 
-    <div style={{ padding: "2px", margin: "32px" }}>
-    <div style={{display:'flex',width:'100%'}}>
-    <label style={{width:'30%',fontSize:'1.2rem',fontWeight:'500'}}>State</label>
-    <input name="searchTerm" value={searchterm} onChange={handleSearchChange} type="text" style={{width:'70%'}} placeholder="Enter state name" />
-    </div>
-    <div style={{fontSize:'2rem',fontWeight:'600',textAlign:'center',margin:'16px'}}>List of Diagonstics Laboratory</div>
-      
+    <Grid className="m-4">
+    <GridRow stretched>
+    <Form.Input style={{width: '50%',marginLeft:"16px"}} label="State Name" name="searchTerm" value={searchterm} onChange={handleSearchChange} type="text" placeholder="Enter state name" />
+    </GridRow>
+    <Grid.Row>
+    <Header>List of Diagonstics Laboratory</Header>
       {
         searchterm ? displaySearchResults() : displayList()
       }
-      
-    </div> : <div style={{width:'100%',height:'100vh'}}><LoadingComponent loading={loading} /></div>
+      </Grid.Row>
+      </Grid> : <LoadingComponent loading={loading} />
   );
 };
 export default Diagonstics;

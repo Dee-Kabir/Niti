@@ -1,12 +1,11 @@
 .RegisterForm_H {
     width: 100%;
-    height: 100vh;
-    background: #eee;
+    height: 90vh;
+    background: #fcfcfc;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-top: 32px;
     
 }
 .RegisterForm_Block {
@@ -18,9 +17,25 @@
     height: 90%;
     border-radius: 8px;
 }
+@media (max-width: 400px){
+    .RegisterForm_Block{
+        padding: 8px 0px;
+        width: 98%;
+    }
+    .RegisterForm_H{
+        height: auto;
+        margin-top: 8px;
+    }
+    
+}
 .RegisterForm_Block>form{
     width: 80%;
     margin: auto;
+}
+@media (max-width : 400px){
+    .RegisterForm_Block>form{
+        width: 90%;
+    }
 }
 .RegisterForm_HInput {
     display: flex;
@@ -32,6 +47,7 @@
     letter-spacing: 1px;
     text-align: left;
 }
+
 .RegisterForm_HInput>input{
     letter-spacing: 1.5px;
     font-size: 1.2rem;
