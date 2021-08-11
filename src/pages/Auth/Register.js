@@ -44,11 +44,11 @@ const Register = (props) => {
       var id = props.match.params.userId;
       try {
         firebase.auth().onAuthStateChanged((user) => {
-          if (user.uid === id)
+          if (user.phoneNumber === id)
             register({ name, mobileNumber, address, state, city, id: id }).then(
               () => {
                 try {
-                  authenticateUser(id, "user").then(() => {
+                  authenticateUser(user.phoneNumber, "user").then(() => {
                     localStorage.removeItem("mobileRegister");
                     setLoading(false);
                     setError("");

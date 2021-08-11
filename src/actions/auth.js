@@ -39,6 +39,7 @@ export const getUser = async (id) => {
     .doc(`${id}`).get()
 };
 export const checkUser = async (id,type) => {
+  console.log("id",id)
   let result = false;
   if(type==="user")
   await checkUserb(id).then((data) => (result = data.exists));
@@ -60,7 +61,7 @@ export const register = async ({
   city,
   id,
 }) => {
-  return await usersRef.doc(`${id}`).set({
+  return await usersRef.doc(`+91${mobileNumber}`).set({
     name: name,
     mobileNumber: '+91'+mobileNumber,
     address: address,

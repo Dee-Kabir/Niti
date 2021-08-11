@@ -1,8 +1,8 @@
-import { Fragment, useState, useEffect, Component } from "react";
-import { isAuthenticated } from "../actions/auth";
+import { Fragment, Component } from "react";
 import LoadingComponent from "../utilities/LoadingComponent"
-import firebase from "../firebase"
-import DoctorList from "./DoctorList";
+import CompletedAppointments from "../components/doctors/CompletedAppointments";
+import PendingAppointments from "../components/doctors/PendingAppointments";
+import {Redirect} from "react-router-dom"
 class Doctors extends Component{
   state = {
     error: "",
@@ -16,15 +16,15 @@ class Doctors extends Component{
   loadDoctors = async() => {
     try {
       this.setState({ error: "", loading: true });
-      this.props.doctors.map((doc) => {
+      this.props.doctors && this.props.doctors.map((doc) => {
         doc.get().then(data => this.setState((prevState)=>({doctors : [...prevState.doctors,{ ...data.data(),id: data.id}]})))
       })
         this.setState({
           error:"",
           loading:false
         })
-    } catch {
-      this.setState({ error: "Error while connecting", loading: false });
+    } catch(err) {
+      this.setState({ error: "Error while connecting" , loading: false });
     }
   };
   render(){
@@ -79,21 +79,24 @@ class Doctors extends Component{
                             borderRadius: "4px",
                           }}
                           onClick={() => {
-                            if (show !== doc.id) {
-                              this.setState({show : doc.id});
-                            } else {
-                              this.setState({show:""});
-                            }
+                            // if (show !== doc.id) {
+                            //   this.setState({show : doc.id});
+                            // } else {
+                            //   this.setState({show:""});
+                            // }
+                            window.location.href =  `/hospital/doctor-dashboard/${doc.id}`
                           }}
                         >
                           Patients
                         </button>
                       </div>
-                      {show === doc.id && (
-                        <DoctorList
-                          doctorId={doc.id}
-                        />
-                      )}
+                      {//show === doc.id && (
+                      //   <Fragment>
+                      //   <CompletedAppointments doctorId = {doc.id}/>
+                      //   <PendingAppointments doctorId={doc.id} />
+                      //   </Fragment>
+                      // )
+                    }
                     </div>
                   </div>
                 );

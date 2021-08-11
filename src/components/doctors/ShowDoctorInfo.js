@@ -2,9 +2,9 @@ import classes from "./ShowDoctorInfo.module.css"
 import firebase from "../../firebase"
 import { isAuthenticated } from "../../actions/auth"
 import { Form } from "semantic-ui-react"
-const ShowDoctorInfo = ({user}) => {
+const ShowDoctorInfo = ({user,id}) => {
     const setAvailability = () => {
-        firebase.firestore().collection("doctors").doc(`${isAuthenticated() }`).update({
+        firebase.firestore().collection("doctors").doc(id ? id :`${isAuthenticated() }`).update({
             available: !user.available
         }).then(()=>{
             window.location.reload()
@@ -37,7 +37,7 @@ const ShowDoctorInfo = ({user}) => {
         <div className={classes.ShowUserInfo_block_info}>
         <label>Available</label>
         <div>
-        <Form.Field control="radio" checked={user.available} onChange ={setAvailability} />
+        <input type="checkbox" checked={user.available} onChange ={setAvailability} />
         </div>
         </div> 
         </div>

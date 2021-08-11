@@ -3,10 +3,11 @@ import { getHospital, isAuthenticated } from "../actions/auth";
 import classes from "../user/UserDashboard.module.css"
 import LoadingComponent from "../utilities/LoadingComponent";
 import ShowUserInfo from "../user/ShowUserInfo";
-import EditHospitalInfo from "./EditHospitalInfo";
 import { editHospitalInfo } from "../actions/firebaseapi";
 import AddDoctor from "./AddDoctor";
 import Doctors from "./Doctors";
+import RegisterForm from "../components/hospitals/RegisterForm";
+import ErrorComponent from "../utilities/ErrorComponent"
 const OrganizationDashboard = (props) => {
     const [values,setValues] = useState({
         info:true,
@@ -17,11 +18,12 @@ const OrganizationDashboard = (props) => {
         loading : false,
         error: ""
     })
+    const [error, setError] = useState("")
     const changeComponent = (name) => {
         console.log(name)
         setValues({...values,info:false,add:false,edit:false,all:false,[name]: true})
     }
-    const {info,edit,add,all,appointmentHistory,user,loading,error} = values;
+    const {info,edit,add,all,appointmentHistory,user,loading} = values;
     useEffect(()=>{
         loadUser()
     },[])
@@ -46,11 +48,13 @@ const OrganizationDashboard = (props) => {
         try{
             setValues({...values,error:"",loading:true})
             editHospitalInfo(user,isAuthenticated()).then((data) => {
-                setValues({...values,error:"",loading:false})
+                setValues({...values,loading:false})
+                setError("")
                 window.location.reload();
             })
         }catch{
-            setValues({...values,error: "Connectivity error",loading:false})
+            setValues({...values,loading:false})
+            setError("Connectivity error")
         }
     }
     return(!loading ? 
@@ -66,17 +70,15 @@ const OrganizationDashboard = (props) => {
         </div>
         </div>
         <div className={classes.Dashboard_info_column}>
-        <div>
         {!loading  ? <Fragment>
-            {error && <p style={{fontSize:'1.2rem',color:'red'}}>{error}</p>}
+            {error && <ErrorComponent error={error} />}
             {info && <ShowUserInfo user={user}  /> }
-            {edit && <EditHospitalInfo values={user} handleChange={handleChange} handlePlaces={handlePlaces} handleSubmit={handleeditSubmit} />}
-            {add && <AddDoctor />}
+            {edit && <RegisterForm values={user} handleChange={handleChange} handlePlaces={handlePlaces} handleSubmit={handleeditSubmit} loading={loading} edit={true}  />}
+            {add && <AddDoctor/>}
             {all && <Doctors doctors = {user.doctors} />}
             </Fragment>
             : <LoadingComponent loading={loading} />
             }
-        </div>
         </div>
         </div>
         

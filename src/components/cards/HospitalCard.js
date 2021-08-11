@@ -25,12 +25,8 @@ class HospitalCard extends Component{
   this.setState({show: !this.state.show})
     
     }
-    doctors = () => {
-        return(this.state.doctorsList.length > 0 && this.state.doctorsList.map((doc,_)=>(
-            <DoctorCard doctor={doc} key={doc.id} />
-        ))
-        )
-    }
+    doctors = () => (<DoctorCard doctors={this.state.doctorsList} heading={`Doctors in hospital ${this.props.hospital.name}`} />)
+    
     render(){
       const {doctorsList,loading,show} = this.state;
       const {hospital} = this.props
@@ -84,7 +80,6 @@ class HospitalCard extends Component{
       </div>
       {
           show && <div style={{border:'2px solid #888',width:'95%',margin:'auto'}}>
-          <h2 style={{fontWeight:'700',textAlign:'center'}}>Doctors in hospital {hospital.name}</h2>
           {show && hospital && this.doctors()}
           </div>
       }

@@ -1,5 +1,5 @@
 import { Fragment, useRef } from "react";
-import { Button, Image } from "semantic-ui-react";
+import { Button, Form, Header, Image } from "semantic-ui-react";
 import SearchInput from "../components/search/SearchInput";
 import classes from "./RegisterHospital.module.css";
 const AddDoctorForm = (props) => {
@@ -16,15 +16,13 @@ const AddDoctorForm = (props) => {
   return (
       
       <div className={classes.RegisterForm_Block}> 
-      <form
+      <Form
           onSubmit={handleSubmit}
         >
-          <div className={classes.Heading_Add_doctor}>
+          <Header className={classes.Heading_Add_doctor}>
             Add doctor to NitiMed
-          </div>
-          <div className={classes.RegisterForm_HInput}>
-            <label>Name</label>
-            <input
+          </Header>
+          <Form.Input label="Name" className={classes.RegisterForm_HInput}
               type="text"
               name="name"
               placeholder="Enter Your Name"
@@ -32,10 +30,7 @@ const AddDoctorForm = (props) => {
               onChange={handleChange}
               required
             />
-          </div>
-          <div className={classes.RegisterForm_HInput}>
-            <label>Email</label>
-            <input
+          <Form.Input label="Email" className={classes.RegisterForm_HInput}
               type="email"
               name="email"
               placeholder="Enter Your Email"
@@ -43,7 +38,6 @@ const AddDoctorForm = (props) => {
               onChange={handleChange}
               required
             />
-          </div>
           <div className={classes.RegisterForm_HInput}>
             <label>MobileNumber</label>
             <input
@@ -113,7 +107,7 @@ const AddDoctorForm = (props) => {
               Submit
             </button>
           </div>
-        </form>
+        </Form>
         </div> 
       
   );

@@ -1,8 +1,9 @@
-import { Component, useEffect, useRef, useState } from "react";
+import { Component } from "react";
 import {isAuthenticated} from "../actions/auth"
 import LoadingComponent from "../utilities/LoadingComponent"
 import firebase from "../firebase";
 import { Link } from "react-router-dom";
+import { Header, Table } from "semantic-ui-react";
 const usersRef = firebase.firestore().collection("users");
 class AppointmentHistory extends Component {
     state = {appointments: [],
@@ -24,29 +25,31 @@ class AppointmentHistory extends Component {
         const {loading,appointments} = this.state
     return(!loading ? (appointments.length > 0 ?
         <div>
-        <table>
-        <thead>
-        <tr>
-        <td>SNo.</td>
-        <td>Doctor Name</td>
-        <td>Token Number</td>
-        <td>Completed</td>
-        </tr>
-        </thead>
-        <tbody>
+        <Header>Appointments</Header>
+        <Table celled>
+        <Table.Header>
+        <Table.Row>
+        <Table.HeaderCell>SNo.</Table.HeaderCell>
+        <Table.HeaderCell>Doctor Name</Table.HeaderCell>
+        <Table.HeaderCell>Token Number</Table.HeaderCell>
+        <Table.HeaderCell>Completed</Table.HeaderCell>
+        <Table.HeaderCell>Action</Table.HeaderCell>
+        </Table.Row>
+        </Table.Header>
+        <Table.Body>
         {
             appointments.map((app,_)=>(
-                <tr key={app.doctorId+5+_} >
-                <td>{_+1}</td>
-                <td>{app.doctorName}</td>
-                <td>{app.token}</td>
-                <td>{app.completed ? "Yes" : "No"}</td>
-                <td>{app.completed ? <Link to="#">Raise issue</Link> : <Link to={`/chat/${app.doctorId}/${isAuthenticated()}`}>Chat</Link>}</td>
-                </tr>
+                <Table.Row key={app.doctorId+5+_} >
+                <Table.Cell>{_+1}</Table.Cell>
+                <Table.Cell>{app.doctorName}</Table.Cell>
+                <Table.Cell>{app.token}</Table.Cell>
+                <Table.Cell>{app.completed ? "Yes" : "No"}</Table.Cell>
+                <Table.Cell>{app.completed ? <Link to="#">Raise issue</Link> : <Link to={`/chat/${app.doctorId}/${isAuthenticated()}`}>Video call</Link>}</Table.Cell>
+                </Table.Row>
             ))
         }
-        </tbody>
-        </table>
+        </Table.Body>
+        </Table>
         </div> :<div>No appointment Yet</div>) : <LoadingComponent loading={loading} />
     )
     }

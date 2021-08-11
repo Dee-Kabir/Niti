@@ -16,8 +16,8 @@
 }
 .Dashboard_info_column{
     flex-grow: 4;
-    background: #fafafa;
-    margin-left: 16px;
+    background: #fcfcfc;
+    margin-left: 8px;
     height: auto;
 }
 .Dashboard_menu_items{

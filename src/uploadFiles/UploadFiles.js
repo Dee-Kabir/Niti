@@ -32,12 +32,12 @@ class UploadFiles extends Component{
         const {file} = this.state;
           if(file!=null){
               this.createExcel(file)
-            if (this.isAuthorized(file.name)) {
-                const metadata = { contentType: mime.lookup(file.name) };
-                console.log("metadaat",metadata)
-                this.uploadFile(file, metadata);
-                this.setState({file: null})
-              }
+            // if (this.isAuthorized(file.name)) {
+            //     const metadata = { contentType: mime.lookup(file.name) };
+            //     console.log("metadaat",metadata)
+            //     this.uploadFile(file, metadata);
+            //     this.setState({file: null})
+            //   }
           }
       }
     uploadFile = (file,metadata) => {
@@ -76,8 +76,9 @@ class UploadFiles extends Component{
     //      })
         
     //   })
-    firebase.database().ref("jsonfiles").child("diagonstic_laboratory").once("value",(snap)=>{
+    firebase.database().ref("jsonfiles").child("states").once("value",(snap)=>{
         this.setState({data: snap.val()})
+        console.log(snap.val())
     })
     }
     createExcel = (fileName) => {
@@ -99,10 +100,10 @@ class UploadFiles extends Component{
         })
         
         promise.then((d) => {
-            firebase.database().ref("jsonfiles").child("diagonstic_laboratory").set(d).then(() => {
-                console.log("done")
-            })
-            // uploadFileToFirestore(d);
+            // firebase.database().ref("jsonfiles").child("GUJARAT").set(d).then(() => {
+            //     console.log("done")
+            // })
+            uploadFileToFirestore(d);
             this.setState({file: null})
             // this.setState({data:d})
             console.log("done",d)
@@ -111,9 +112,8 @@ class UploadFiles extends Component{
     render(){
     return (
         <Fragment>
-        <input type="file" onChange={this.addFile} accept=".xls/*" />
+        <input type="file" onChange={this.addFile} />
             <button onClick={this.sendFile}>Upload</button>
-        
         <button onClick={this.getdata}>getData</button>
         </Fragment>
     )

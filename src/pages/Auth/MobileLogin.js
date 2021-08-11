@@ -93,7 +93,7 @@ const MobileLogin = (props) => {
         firebaseEvent
           .confirm(otp)
           .then((result) => {
-            checkUser(result.user.uid, props.match.params.userType).then(
+            checkUser(result.user.phoneNumber, props.match.params.userType).then(
               (data) => {
                 if (!data) {
                   localStorage.setItem(
@@ -102,11 +102,11 @@ const MobileLogin = (props) => {
                   );
                   setValues({ ...values, loading: false });
                   props.history.replace(
-                    `/registration-after-mobile/${props.match.params.userType}/${result.user.uid}`
+                    `/registration-after-mobile/${props.match.params.userType}/${result.user.phoneNumber}`
                   );
                 } else {
                   authenticateUser(
-                    result.user.uid,
+                    result.user.phoneNumber,
                     props.match.params.userType
                   ).then(() => {
                     setValues({ ...values, loading: false });

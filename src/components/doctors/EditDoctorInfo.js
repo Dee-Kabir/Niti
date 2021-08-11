@@ -5,7 +5,7 @@ import LoadingComponent from "../../utilities/LoadingComponent";
 import classes from "./ShowDoctorInfo.module.css"
 import {editDoctor} from "../../actions/firebaseapi"
 
-const EditDoctorInfo = ({user}) => {
+const EditDoctorInfo = ({user,docId}) => {
     const [values,setValues] = useState({
         name: "",
         email: "",
@@ -69,7 +69,7 @@ const EditDoctorInfo = ({user}) => {
                 address,
                 state,
                 city,photo,proof} = user;
-            setValues({...values,name:name,email: email,mobileNumber:mobileNumber,qualification:qualification,
+            setValues({...values,name:name,email: email,mobileNumber:mobileNumber.substr(3,10),qualification:qualification,
                 jobType:jobType,servingType: servingType,workTime:workTime,weekDays:weekDays,consultingTime:consultingTime,
                 speciality:speciality,address:address,state:state,city:city})
                 setDoctorPhoto(photo)
@@ -79,9 +79,9 @@ const EditDoctorInfo = ({user}) => {
     const handleSubmit = (e) =>{
         e.preventDefault()
         setLoading(true);
-        const id = isAuthenticated()
+        const id = docId ? docId : isAuthenticated()
         // if(name && email && mobileNumber && qualification && jobType && servingType && workTime && weekDays.length > 0 && consultingTime && speciality && address && state && city && photo && proof){
-          editDoctor(name,email,id,mobileNumber,qualification,jobType,servingType,workTime,weekDays,address,speciality,state,city).then(()=>{
+          editDoctor(name,email,id,mobileNumber="+91"+mobileNumber,qualification,jobType,servingType,workTime,weekDays,address,speciality,state,city).then(()=>{
             setLoading(false)
             window.location.replace(`/doctor-dashboard/${id}`)
           }).catch(() => {

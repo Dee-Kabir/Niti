@@ -8,22 +8,23 @@ const SearchInput = ({category,name,handlePlaces,placeholder,value}) => {
     },[category])
     const loadData = () => {
         var text;
-        if(name==="country"){
-            text = "country_name"
-        }else if(name =="state"){
-            text = "state_name"
+        if(name ==="state"){
+            text = "stateName"
         }else{
-            text = "city_name"
+            text = "districtName"
         }
-        category && getdata(category).then(data => {
-            var list = data && data.map((state,i)=> ({ 
-                key : i,
-                text: state[text],
-                value: state[text] 
-            }))
-            
-            setData(list)
-        }).catch(err => console.log(err))
+        var list = [];
+        if(category){
+            getdata(category).then(data => {
+                list = data && data.val().map((state,i)=> ({ 
+                    key : i,
+                    text: state[text],
+                    value: state[text] 
+                }))
+                setData(list)
+            }).catch(err =>setData([]) )
+        }
+        
     }
     return (
         <Dropdown

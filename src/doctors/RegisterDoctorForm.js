@@ -1,17 +1,16 @@
 import { Fragment, useRef } from "react";
-import { Button, Image } from "semantic-ui-react";
+import { Button, Form, Grid, Image } from "semantic-ui-react";
 import SearchInput from "../components/search/SearchInput";
 import classes from "./RegisterDoctor.module.css";
 const week = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
-const RegisterDoctorForm = ({handleSubmit,handleChange,setValues,values,handlePlaces,doctorPhoto,handleImageChange,qualificationProof,loading,edit = false}) => {
+const RegisterDoctorForm = ({handleSubmit,handleChange,setValues,values,handlePlaces,doctorPhoto,handleImageChange,qualificationProof,loading,edit = false,addDoctor=false}) => {
     const {name,email,mobileNumber,qualification,jobType,servingType,workTime,weekDays,address,state,city,fee,speciality}=values
     const photoInputRef = useRef(null);
     const proofInputRef = useRef(null);
     return(
-        <form  onSubmit={handleSubmit}>
-        <div className={classes.RegisterForm_HInput}>
-          <label>Name</label>
-          <input
+      <Grid className="m-2" style={{width: '100%'}}>
+        <Form  onSubmit={handleSubmit} style={{width: '100%'}}>
+        <Form.Input label="Name" className={classes.RegisterForm_HInput} 
             type="text"
             name="name"
             placeholder="Enter Your Name"
@@ -19,10 +18,7 @@ const RegisterDoctorForm = ({handleSubmit,handleChange,setValues,values,handlePl
             onChange={handleChange}
             required
           />
-        </div>
-        <div className={classes.RegisterForm_HInput}>
-          <label>Email</label>
-          <input
+        <Form.Input label="Email" className={classes.RegisterForm_HInput}
             type="email"
             name="email"
             placeholder="Enter Your Email"
@@ -30,10 +26,7 @@ const RegisterDoctorForm = ({handleSubmit,handleChange,setValues,values,handlePl
             onChange={handleChange}
             required
           />
-        </div>
-        <div className={classes.RegisterForm_HInput}>
-          <label>MobileNumber</label>
-          <input
+        <Form.Input label="Mobile Number" className={classes.RegisterForm_HInput}
             type="number"
             name="mobileNumber"
             placeholder="Enter Your 10 digit Mobile Number"
@@ -43,56 +36,37 @@ const RegisterDoctorForm = ({handleSubmit,handleChange,setValues,values,handlePl
             readOnly
             onChange={handleChange}
           />
-        </div>
-        <div className={classes.RegisterForm_HInput}>
-        <label>Qualification</label>
-        <input type="text" name="qualification" placeholder="Enter your Qualification" value={qualification} required onChange={handleChange} />
-        </div>
-        <div className={classes.RegisterForm_HInput}>
-        <label>Public or Private</label>
-        <div className={classes.checkbox_field}>
-        <div className={classes.Checkbox_label_input}>
-        <input type="checkbox" checked={jobType=="public"} value={jobType=="public"}  onChange={()=>setValues({...values,jobType:"public"})} />
-        <label>Public</label>
-        </div>
-        <div className={classes.Checkbox_label_input}>
-        <input type="checkbox" checked={jobType=="private"} value={jobType=="private"} onChange={()=>setValues({...values,jobType:"private"})} />
-        <label>Private</label>
-        </div>
-        </div>
-        </div>
-        <div className={classes.RegisterForm_HInput}>
-        <label>Serving or Retired</label>
-        <div className={classes.checkbox_field}>
-        <div className={classes.Checkbox_label_input}>
-        <input type="checkbox" checked={servingType=="serving"} value={servingType=="serving"} onChange={()=>setValues({...values,servingType:"serving"})} />
-        <label>Serving</label>
-        </div>
-        <div className={classes.Checkbox_label_input}>
-        <input type="checkbox" checked={servingType=="retired"} value={servingType=="retired"} onChange={()=>setValues({...values,servingType:"retired"})} />
-        <label>Retired</label>
-        </div>
-        </div>
-        </div>
-        <div className={classes.RegisterForm_HInput}>
-        <label>Full-time or Part-time</label>
-        <div className={classes.checkbox_field}>
-        <div className={classes.Checkbox_label_input}>
-        <input type="checkbox" checked={workTime=="fulltime"} value={workTime=="fullTime"} onChange={()=>setValues({...values,workTime:"fulltime"})} />
-        <label>Full time</label>
-        </div>
-        <div className={classes.Checkbox_label_input}>
-        <input type="checkbox" checked={workTime=="parttime"} value={workTime=="partTime"} onChange={()=>setValues({...values,workTime:"partTime"})} />
-        <label>Part time</label>
-        </div>
-        </div>
-        </div>
-        <div className={classes.RegisterForm_HInput}>
+        <Form.Input label="Qualification" className={classes.RegisterForm_HInput}
+         type="text" 
+         name="qualification" 
+         placeholder="Enter your Qualification" 
+         value={qualification} 
+         required 
+         onChange={handleChange} 
+         />
+       
+        <Form.Group className={`${classes.RegisterForm_HInput} inline`} >
+        <label>Serving Sector</label>
+        <Form.Radio label="Public" checked={jobType=="public"} onChange={()=>setValues({...values,jobType:"public"})} />
+        <Form.Radio label="Private" checked={jobType=="private"} onChange={()=>setValues({...values,jobType:"private"})} />
+        </Form.Group>
+        <Form.Group  className={`${classes.RegisterForm_HInput} inline`} >
+        <label>Serving Type</label>
+        <Form.Radio label="Serving" checked={servingType=="serving"} onChange={()=>setValues({...values,servingType:"serving"})} />
+        <Form.Radio label="Retired" checked={servingType=="retired"} onChange={()=>setValues({...values,servingType:"retired"})} />
+        </Form.Group>
+        <Form.Group className={`${classes.RegisterForm_HInput} inline`}  >
+        <label>Work Type</label>
+        <Form.Radio label="Full-Time" checked={workTime=="fullTime"} onChange={()=>setValues({...values,workTime:"fullTime"})} />
+        <Form.Radio label="Part-Time" checked={workTime=="partTime"} onChange={()=>setValues({...values,workTime:"partTime"})} />
+        </Form.Group>
+        <div className={`${classes.RegisterForm_HInput} fields inline`} >
         <label>Available on days</label>
         {
           week && week.map((w,_)=>(
-            <div key={w} className={classes.Checkbox_label_input}>
-              <input type="checkbox" checked={weekDays ? weekDays.includes(w): false} onChange={()=>{
+            <div key={w} style={{display:'flex',margin:'0 4px'}} className="">
+            <label>{w}</label>
+            <input  type="checkbox" className={`${classes.Checkbox_label_input} ui radio checkbox `} checked={weekDays ? weekDays.includes(w): false} onChange={()=>{
                 let days = weekDays ? [...weekDays] : []
                 if(days.includes(w)){
                   days.splice(days.indexOf(w),1)
@@ -100,15 +74,13 @@ const RegisterDoctorForm = ({handleSubmit,handleChange,setValues,values,handlePl
                   days.push(w)
                 }
                 setValues({...values,weekDays:[...days]})
-              }} />
-              <label>{w}</label>
+              }}/>
+       
             </div>
           ))
         }
         </div>
-        <div className={classes.RegisterForm_HInput}>
-          <label>Speciality</label>
-          <input
+        <Form.Input label="Speciality" className={classes.RegisterForm_HInput}
             type="text"
             name="speciality"
             placeholder="Enter doctor's Speciality"
@@ -116,22 +88,15 @@ const RegisterDoctorForm = ({handleSubmit,handleChange,setValues,values,handlePl
             onChange={handleChange}
             required
           />
-        </div>
-        <div className={classes.RegisterForm_HInput}>
-          <label>Fee</label>
-          <input
+        <Form.Input label="Fee" className={classes.RegisterForm_HInput}
             type="number"
-            min = {1}
             name="fee"
             placeholder="Enter doctor's fee"
             value={fee}
             onChange={handleChange}
-            required
           />
-        </div>
-        <div className={classes.RegisterForm_HInput}>
-          <label>Address</label>
-          <input
+      
+        <Form.Input label="Address" className={classes.RegisterForm_HInput}
             type="text"
             name="address"
             placeholder="Enter doctor's Address"
@@ -139,12 +104,12 @@ const RegisterDoctorForm = ({handleSubmit,handleChange,setValues,values,handlePl
             onChange={handleChange}
             required
           />
-        </div>
-        <div className={classes.RegisterForm_HInput}>
+       
+        <div className={`${classes.RegisterForm_HInput} required field`}>
           <label>State</label>
-          <div style={{ width: "70%" }}>
+          <div style={{ width: "100%" }}>
             <SearchInput
-              category="states/India"
+              category="states"
               value={state}
               name="state"
               handlePlaces={handlePlaces}
@@ -152,11 +117,11 @@ const RegisterDoctorForm = ({handleSubmit,handleChange,setValues,values,handlePl
             />
           </div>
         </div>
-        <div className={classes.RegisterForm_HInput}>
+        <div className={`${classes.RegisterForm_HInput} required field`}>
           <label>City</label>
-          <div style={{ width: "70%" }}>
+          <div style={{ width: "100%" }}>
             <SearchInput
-              category={state ? `cities/${state}` : false}
+              category={state}
               value={city}
               name="city"
               handlePlaces={handlePlaces}
@@ -165,7 +130,7 @@ const RegisterDoctorForm = ({handleSubmit,handleChange,setValues,values,handlePl
           </div>
         </div>
         
-        <div className={classes.RegisterForm_HInput}>
+        <div className={`${classes.RegisterForm_HInput} field required`}>
           <label>Photo</label>
           <Image
             width="100px"
@@ -192,7 +157,8 @@ const RegisterDoctorForm = ({handleSubmit,handleChange,setValues,values,handlePl
             required
           /></Fragment>}
         </div>
-        <div className={classes.RegisterForm_HInput}>
+        {
+          !addDoctor && <div className={`${classes.RegisterForm_HInput} field required`}>
           <label>Qualification Proof</label>
           <Image
             width="100px"
@@ -221,17 +187,20 @@ const RegisterDoctorForm = ({handleSubmit,handleChange,setValues,values,handlePl
           />
             </Fragment>}
         </div>
+        }
         <div style={{textAlign:"right"}}>
-          <button
+          <Button
+          primary
+          size="large"
             disabled={loading}
-            loading={loading ? "true" : "false"}
+            loading={loading}
             type="submit"
-            className={classes.Submit_btn_}
           >
             Submit
-          </button>
+          </Button>
         </div>
-      </form>
+      </Form>
+      </Grid>
     )
 }
 export default RegisterDoctorForm;

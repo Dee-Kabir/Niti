@@ -18,7 +18,7 @@ const Doctors = () => {
         <div className={classes.SearchResults}>
         <DoctorSearchBox />
         </div>
-        {/*<UploadFiles />*/}
+       {/*<UploadFiles />*/}
 
         </Container>
     )

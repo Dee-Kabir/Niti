@@ -1,14 +1,15 @@
+// import { Card,Image } from "semantic-ui-react";
+import { Alert } from "antd";
 import { Fragment } from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Table,Header } from "semantic-ui-react";
 const week = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
-const DoctorCard = ({ doctor }) => {
-  const checkAvailability = () => {
+const DoctorCard = ({ doctors,heading }) => {
+  const checkAvailability = (doctor) => {
     if(doctor.available){
       if(doctor.jobType == "private"){
         if(doctor.weekDays.includes(week[new Date().getDay()])){
           localStorage.setItem("selectedDoctor",JSON.stringify(doctor))
           window.location.href = `/appointment/${doctor.id}`
-          
         }else{
           alert("Doctor Not Available")
         }
@@ -20,36 +21,62 @@ const DoctorCard = ({ doctor }) => {
       alert("Doctor Not Available")
     }
   }
-  return (doctor && 
-    <Fragment>
-      <div className="w3-container" style={{fontSize:"1vw",boxShadow:"0px 5px 8px 1px #888"}}>
-     <div className="w3-row-padding w3-panel w3-border-top w3-border">
-         <div className="w3-col l3 m6 s4 w3-white w3-center">          
-          <img src={doctor.photo? doctor.photo : "https://images.theconversation.com/files/304957/original/file-20191203-66986-im7o5.jpg?ixlib=rb-1.1.0&q=45&auto=format&w=1200&h=1200.0&fit=crop"} className="w3-round w3-margin-bottom" alt="Random Name" alt="New York" style={{width:"100%"}} className="w3-hover-opacity"/>
-        </div>      
-          <div className="w3-col l7 m3 s4 w3-white w3-left" >
-            <h3 style={{color: "darkblue"}}><b>{doctor.name}</b></h3>
-            <p className="w3-opacity" >{doctor.speciality}</p>
-            <p className="w3-opacity" >{doctor.experience}1 yr Experience</p>
-            <b>Location</b>
-            <p className="w3-opacity">{doctor.address}</p>
-            <p className="w3-container">Fee: Rs. {doctor.private ? doctor.fee : 0}</p>
-            <div className="w3-padding w3-xsmall">
-              <i className="material-icons" style={{color:"green"}}>thumb_up</i>
-              <Link to="#" style={{color:"green"}}>Patient Stories</Link>
-            </div>
-          </div>
-          <div className="w3-col l2 m3 s4 w3-white w3-center"><br />                 
-            <div className="w3-padding w3-xsmall" style={{fontSize:"10px" ,color:"green"}}>
-              <i className="material-icons" style={{fontSize:"15px"}}>today</i><b>{doctor.weekDays ? doctor.weekDays:"All working Days"}</b>
-            </div><br></br>
-            <button onClick={checkAvailability} className="w3-button w3-blue w3-round-xlarge">Book Appointment</button>
-            
-          </div>
+  return (doctors && 
+    doctors.length > 0 ? (
+      <Fragment>
+        <Header>{heading}</Header>
+        <div style={{display:'flex',flexWrap:'wrap'}}>
+        <Table celled>
+        <Table.Header>
+        <Table.Row>
+        <Table.HeaderCell>Sr No.</Table.HeaderCell>
+        <Table.HeaderCell>Doctor Name</Table.HeaderCell>
+        <Table.HeaderCell>Mobile Number</Table.HeaderCell>
+        <Table.HeaderCell>Email</Table.HeaderCell>
+        <Table.HeaderCell>Fee</Table.HeaderCell>
+        <Table.HeaderCell>Appointment</Table.HeaderCell>
+        </Table.Row>
+        </Table.Header>
+        <Table.Body>
+        {doctors.map((doc, _) => (
+          <Table.Row key={doc.mobileNumber}>
+          <Table.Cell>{_+1}</Table.Cell>
+          <Table.Cell>{doc.name}</Table.Cell>
+          <Table.Cell>{doc.mobileNumber}</Table.Cell>
+          <Table.Cell>{doc.email}</Table.Cell>
+          <Table.Cell>{doc.fee}</Table.Cell>
+          <Table.Cell ><button onClick={()=>checkAvailability(doc)}>Book Appointment</button></Table.Cell>
+          </Table.Row>
+          
+        ))}
+        </Table.Body>
+        </Table>
         </div>
-      </div>
-    
       </Fragment>
+    ) : (
+       (
+        <Alert
+          className="mt-4"
+          type="info"
+          message={`No ${heading} Found`}
+        />
+      )
+    )
   );
 };
 export default DoctorCard;
+// <Card style={{margin: '16px'}}>
+//     <Card.Content>
+//     <Image floated="right" size="medium" src={doctor.photo? doctor.photo : "https://images.theconversation.com/files/304957/original/file-20191203-66986-im7o5.jpg?ixlib=rb-1.1.0&q=45"}/>
+//     <Card.Header>{doctor.name}</Card.Header>
+//     <Card.Meta>{`${doctor.speciality}${doctor.experience ? doctor.experience + "yr" : ""}`}</Card.Meta>
+//     <Card.Description>Fee Rs-{doctor.fee ? doctor.fee : 0}</Card.Description>
+//     <Card.Meta>Location {doctor.address}</Card.Meta>
+//     </Card.Content>
+//     <Card.Content>
+//     <div className="w3-padding w3-xsmall" style={{fontSize:"10px" ,color:"green"}}>
+//       <i className="material-icons" style={{fontSize:"15px"}}>today</i><b>{doctor.weekDays.length>0 ? doctor.weekDays:"All working Days"}</b>
+//       </div><br></br>
+//       <button onClick={checkAvailability} className="w3-button w3-blue w3-round-xlarge">Book Appointment</button>
+//     </Card.Content>
+//     </Card>

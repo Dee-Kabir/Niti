@@ -1,6 +1,7 @@
 import { useState,useEffect } from "react"
 import firebase from "../firebase"
 import { isAuthenticated } from "../actions/auth"
+import ErrorComponent from "../utilities/ErrorComponent"
 const BookAppointment = (props) => {
     const [text,setText] = useState("")
     const [error,setError] = useState("")
@@ -31,9 +32,9 @@ const BookAppointment = (props) => {
                 setError("Sorry an error occured")
             } else {
                 var newToken = docTransaction.data().token - 1
-                
                 if(newToken >= 1){
-                    tranction.update(doctorsRef, { token: newToken,appointments: firebase.firestore.FieldValue.arrayUnion(appointmentRef)})
+                tranction.update(doctorsRef.collection("appointments").doc("pendingAppointments"), { appointments: firebase.firestore.FieldValue.arrayUnion(appointmentRef)})
+                .update(doctorsRef,{token: newToken})
                 .set(appointmentRef,{user : userRef,doctor: doctorsRef,token: newToken+1,completed: false,created : firebase.firestore.FieldValue.serverTimestamp() })
                 .update(userRef,{appointments: firebase.firestore.FieldValue.arrayUnion(appointmentRef)})
                 }else{
@@ -41,32 +42,37 @@ const BookAppointment = (props) => {
                 }
             }
         }).then(() => {
-            console.log("done")
-        }).catch(err => console.log(err.message))
+            alert("Your Appointment booked")
+            window.location.href = "/"
+        }).catch(err => setError(err.message))
       }
     const handleSubmit = (e) => {
         e.preventDefault()
-        if(text == "Book"){
-            if(JSON.parse(localStorage.getItem("selectedDoctor")).jobType === "public"){
-                bookAppointmentWithDoctor()
+        try{
+            if(text == "Book"){
+                if(JSON.parse(localStorage.getItem("selectedDoctor")).jobType === "public"){
+                    bookAppointmentWithDoctor()
+                }else{
+                    alert("You will be redirected to payment gateway")
+                    bookAppointmentWithDoctor()
+                }
+                
             }else{
-                alert("You will be redirected to payment gateway")
-                bookAppointmentWithDoctor()
+                setError("Enter the text correctly")
             }
-            
-        }else{
-            setError("Enter the text correctly")
+        }catch(err){
+            setError("Please select the doctor Again")
         }
     }
     return (
         <div>
-        {error && <h2>{error}</h2>}
+        {error && <ErrorComponent error={error} />}
         <form onSubmit={handleSubmit}>
         <div>write Book in the below box</div>
         <input type="text" value={text} onChange={(e)=> {setText(e.target.value)
         setError("")
         }} />
-        <button type="submit" onClick={handleSubmit}>Submit</button>
+        <button disabled={loading} type="submit" onClick={handleSubmit}>Submit</button>
         </form>
         </div>
     )

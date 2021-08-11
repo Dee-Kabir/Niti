@@ -5,24 +5,44 @@ import { useState,Fragment } from "react";
 import { addDoctortoHospital } from "../actions/firebaseapi";
 import { isAuthenticated } from "../actions/auth";
 import LoadingComponent from "../utilities/LoadingComponent";
+import RegisterDoctorForm from "../doctors/RegisterDoctorForm";
 
 const AddDoctor = () => {
   const [values, setValues] = useState({
     name: "",
     email: "",
     mobileNumber: "",
+    qualification: "", 
+    jobType: "public",                  //whether public or private
+    servingType:"serving",               // whether serving or retired
+    workTime: "fulltime",                 //whether full time or parttime
+    weekDays: [],             // week days
+    consultingTime: "",           // working Time
+    speciality: "",
+    fee: 0,
     address:"",
     city:"",
     state:"",
-    speciality: ""
   });
-  const { name,email,mobileNumber,address,city,state } = values;
-  const [preview, setPreview] = useState(
-    "https://via.placeholder.com/300.png/09f/fff"
-  );
-  const [photo,setPhoto] = useState("")
+  const { name,
+    email,
+    mobileNumber,
+    qualification,
+    jobType ,               //whether public or private
+    servingType,               // whether serving or retired
+    workTime ,                //whether full time or parttime
+    weekDays,             // week days
+    consultingTime,          // working Time
+    speciality,
+    fee,
+    address,
+    state,
+    city } = values;
+  const [doctorPhoto, setDoctorPhoto] = useState("")
+  const [photo,setPhoto] = useState("");
   const [error,setError] = useState("");
   const [loading,setLoading] = useState(false);
+
   const handleImageChange = (e) => {
     const img = e.target.files[0];
     if (img) {
@@ -33,7 +53,7 @@ const AddDoctor = () => {
       }
       else{
         if(e.target.name == "photo"){
-          setPreview(URL.createObjectURL(img));
+          setDoctorPhoto(URL.createObjectURL(img));
           setPhoto(img)
         }
         setError("")
@@ -50,7 +70,12 @@ const AddDoctor = () => {
         try{
             if(name && email && mobileNumber.length == 10 && address && city && state){
               setLoading(true)
-            addDoctortoHospital(isAuthenticated(),{name: name.toUpperCase(),email,mobileNumber:'+91'+mobileNumber,address,city:city.toUpperCase(),state:state.toUpperCase},photo).then((data) => {
+            addDoctortoHospital(isAuthenticated(),{name: name.toUpperCase(),
+              email,
+              mobileNumber:'+91'+mobileNumber,qualification,jobType,servingType,workTime,weekDays,speciality,fee,
+              address,city:city.toUpperCase(),state:state.toUpperCase()},
+              doctorPhoto,
+              ).then((data) => {
               setLoading(false)
               setError("")
               window.location.href = "/"
@@ -70,7 +95,11 @@ const AddDoctor = () => {
   return (!loading ?
     <Fragment>
     {error && <p style={{fontSize:'1.1rem',color:'red'}}>{error}</p>}
-      <AddDoctorForm handlePlaces={handlePlaces} setValues={setValues} values={values} handleChange={handleChange} preview={preview} setPreview={handleImageChange} handleSubmit={handleSubmit}/>
+      <RegisterDoctorForm handlePlaces={handlePlaces} 
+      setValues={setValues} 
+      values={values} 
+      handleChange={handleChange} 
+      doctorPhoto={doctorPhoto} setPreview={handleImageChange} handleSubmit={handleSubmit} handleImageChange={handleImageChange} loading={loading}  addDoctor={true}/>
     </Fragment> : <LoadingComponent loading={loading} />
   );
 };

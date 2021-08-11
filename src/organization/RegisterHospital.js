@@ -38,12 +38,12 @@ const RegisterHospital = (props) => {
         createdUser.user.updateProfile({
           displayName: name,
         }).then(()=>{
-          registerHospital({name: name,
+          registerHospital({name: name.toUpperCase(),
             mobileNumber: "+91"+mobileNumber,
             address: address,
             country: country,
-            state: state,
-            city: city,
+            state: state.toUpperCase(),
+            city: city.toUpperCase(),
             email: email,
           },createdUser.user.uid).then(()=>  {
             setFormLogin(true)

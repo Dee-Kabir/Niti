@@ -21,6 +21,7 @@ import NotAuthorised from "./utilities/NotAuthorised";
 import HealthServices from "./components/healthServices/HealthServices";
 import RegisterDoctor from "./doctors/RegisterDoctor";
 import DoctorDashboard from "./doctors/DoctorDashboard";
+import HospitalDoctorDashboard from "./doctors/HospitalDoctorDashboard"
 import BookAppointment from "./user/BookAppointment";
 const App = () => {
   return (
@@ -41,6 +42,7 @@ const App = () => {
     <UserRoutes path="/dashboard/:userId" exact component={UserDashboard} />
     <UserRoutes path="/appointment/:doctorId" exact component={BookAppointment} />
     <DoctorRoutes path="/doctor-dashboard/:doctorId" exact component={DoctorDashboard} />
+    <HospitalRoutes path="/hospital/doctor-dashboard/:doctorId" exact component={HospitalDoctorDashboard} />
     <Route path="/:" component={NotAuthorised} />
     </Switch>
     <Footer/>

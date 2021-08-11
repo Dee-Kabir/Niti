@@ -35,11 +35,11 @@ const RegisterForm = (props) => {
                 />
             <div className={`${classes.Form_Input} required field`}>
             <label>State</label>
-            <SearchInput category={`states/India`} value={state}  name="state" handlePlaces={handlePlaces} placeholder="select State" />
+            <SearchInput category={`states`} value={state}  name="state" handlePlaces={handlePlaces} placeholder="select State" />
             </div>
             <div className={`${classes.Form_Input} required field`}>
             <label>City</label>
-            <SearchInput category={state ? `cities/${state}`: false} value={city} name="city" handlePlaces={handlePlaces} placeholder="select city" />
+            <SearchInput category={state} value={city} name="city" handlePlaces={handlePlaces} placeholder="select city" />
             </div> 
             <div style={{textAlign:'end'}}>
             <Button primary disabled={loading} loading={loading} type="submit">

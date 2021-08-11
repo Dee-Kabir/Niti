@@ -1,4 +1,3 @@
-import { isNull } from "lodash";
 import firebase from "../firebase";
 const usersRef = firebase.firestore().collection("users");
 const doctorsRef = firebase.firestore().collection("doctors");
@@ -35,12 +34,15 @@ export const addDoctor = async(hospitalId,newDoctorKey) => {
     doctors: firebase.firestore.FieldValue.arrayUnion(newDoctorKey)
   })
 }
-const addDoctortoList = async() => {
-  return doctorsRef.doc()
+const addDoctortoList = async(mobileNumber) => {
+  return doctorsRef.doc(`+91${mobileNumber}`)
 }
 export const addDoctortoHospital = async(hospitalId,doctor_Info,photo) =>{
-  const newDoctorKey = await addDoctortoList()
-  await (newDoctorKey).set({...doctor_Info,hospitalId: hospitalId}).then(()=>{
+  const newDoctorKey = await addDoctortoList(doctor_Info.mobileNumber)
+  console.log(doctor_Info)
+  await (newDoctorKey).set({...doctor_Info,token:100000,available:true,hospitalId: hospitalId}).then(()=>{
+    newDoctorKey.collection("appointments").doc("pendingAppointments").set({appointments: []})
+    newDoctorKey.collection("appointments").doc("completedAppointments").set({appointments: []})
     const storageRefphoto = filesRef.child(newDoctorKey.id).child("photo").put(photo,"image/jpeg")
     storageRefphoto.on("state_changed",(snap)=>{},(err)=>{console.log(err)},()=>{
       storageRefphoto.snapshot.ref.getDownloadURL().then((downloadURLphoto)=>{
@@ -59,16 +61,24 @@ export const findDoctorByName = async(name,category) => {
   return await doctorsRef.where(`${category}`,"==",`${value}`).get()
 }
 export const uploadFileToFirestore = async(data) => {
-    data.map((d) => 
-      firebase.firestore().collection("files").doc(`${d.SNo}${d.ADDL}`).set(d)
+    data.map((d) => {
+      const doctorRef = doctorsRef.doc(`+91${d.mobileNumber}`)
+      doctorRef.set({...d,token: 100000,available: true,fee: 0,state: "GUJARAT"}).then(()=>{
+        doctorRef.collection("appointments").doc("pendingAppointments").set({appointments: []})
+        doctorRef.collection("appointments").doc("completedAppointments").set({appointments: []})
+      })
+    }
+      
     )
 }
-export const savedoctor = async(name,uid,email,mobileNumber,qualification,speciality,jobType,servingType,workTime,weekDays,address,state,city,photo,proof) => {
-  const doctorRef = doctorsRef.doc(`${uid}`);
+export const savedoctor = async(name,email,mobileNumber,qualification,speciality,jobType,servingType,fee,workTime,weekDays,address,state,city,photo,proof) => {
+  const doctorRef = doctorsRef.doc(`+91${mobileNumber}`);
   return await doctorRef.set({
-    name:name.toUpperCase(),email: email,
-    mobileNumber,qualification,speciality,jobType,servingType,workTime,weekDays,address,state:state.toUpperCase(),city:city.toUpperCase()
+    name:name.toUpperCase(),email: email,token: 100000,fee,
+    mobileNumber,qualification,speciality,jobType,servingType,workTime,weekDays,address,state:state.toUpperCase(),city:city.toUpperCase(),available: true
   }).then(()=>{
+    doctorRef.collection("appointments").doc("pendingAppointments").set({appointments: []})
+    doctorRef.collection("appointments").doc("completedAppointments").set({appointments: []})
     let id = doctorRef.id;
     const storageRefphoto = filesRef.child(id).child("photo").put(photo,"image/jpeg")
     const storageRefProof = filesRef.child(id).child("proof").put(proof,"image/jpeg")
@@ -103,4 +113,7 @@ export const editDoctor = async(name,email,id,mobileNumber,qualification,jobType
   return await doctorsRef.doc(`${id}`).update({
     name:name.toUpperCase(),email,mobileNumber,qualification,jobType,servingType,workTime,weekDays,address,speciality,state: state.toUpperCase(),city: city.toUpperCase()
   })
+}
+export const getStates = async() => {
+  return await (await firebase.database().ref("jsonfiles/states").get()).val()
 }
