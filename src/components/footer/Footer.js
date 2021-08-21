@@ -34,7 +34,7 @@ const Footer = () => {
         Nitimed
         </div>
         <div className={classes.Footer_copyright}>
-        Copyright © 2017, Nitimed. All rights reserved.
+        Copyright © 2021, Nitimed. All rights reserved.
         </div>
         </div>
         </Fragment>

@@ -59,7 +59,7 @@ const DiseasesComponent = () => {
       </Table.Header>
       <Table.Body>
         {result.map((d,_) => (
-            <Table.Row className="row" key={`${d["Disease_Name"]}${_}`}>
+            <Table.Row key={`${d["Disease_Name"]}${_}`}>
               <Table.Cell >{d["Species_Name"]}</Table.Cell>
               <Table.Cell >{d["Disease_Name"]}</Table.Cell>
               <Table.Cell >{d["DiseaseSymptoms"]}</Table.Cell>

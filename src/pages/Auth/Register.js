@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Fragment } from "react";
-import RegisterForm from "./RegisterForm";
+import RegisterForm from "../../components/user/RegisterForm";
 import firebase from "../../firebase";
 import { authenticateUser, register } from "../../actions/auth";
 import ErrorComponent from "../../utilities/ErrorComponent";

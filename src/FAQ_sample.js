@@ -37,7 +37,7 @@ export const Services = [
     {
         "title": "Schemes",
         "desc" : "There are various Schemes for farmers benefit provided by state and central government. You can get Information about them by your Nodal Officer.",
-        "link" : "https://dahd.nic.in/schemes_programmes"
+        "link" : "https://drive.google.com/file/d/1s-PkhjCHbdMh7Rn1Vo59rL-0JIypbYBH/view"
     },
     {
         "title": "Pashu Credit Card",
@@ -48,6 +48,11 @@ export const Services = [
         "title": "Insurance",
         "desc" : "State and Central Government has various schemes for Insuring your livestocks from various unfavourable circumstances.",
         "link" : "#"
+    },
+    {
+        "title" : "Health Services",
+        "desc" : "Health services related to different categories of livestocks.",
+        "link" : "/health-services"
     }
 ]
 export const Till_Now_Items = [

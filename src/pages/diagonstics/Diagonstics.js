@@ -1,7 +1,7 @@
 import firebase from "../../firebase"
 import { Fragment, useEffect, useState } from "react";
 import LoadingComponent from "../../utilities/LoadingComponent";
-import { Form, Table, Grid, GridRow,Header} from "semantic-ui-react";
+import { Form, Table, Grid, GridRow,Header, TableCell} from "semantic-ui-react";
 const Diagonstics = () => {
   const [data, setdata] = useState("");
   const [loading,setLoading] = useState(false);
@@ -15,10 +15,12 @@ const Diagonstics = () => {
   const loadDiagonstics = () =>{
     setLoading(true)
     try{
-        firebase.database().ref("jsonfiles").child("diagonstic_laboratory").orderByChild("/State Name").once("value",(snap)=>{
-            setdata(snap.val())
-            setLoading(false)
-          })
+        firebase.firestore().collection("diagonstics_labolatory").get().then(data => {
+          let dilist=[];
+          data.forEach(di => dilist.push({...di.data(),id: di.id}));
+          setdata(dilist);
+          setLoading(false)
+        })
     }catch{
         setLoading(false)
         setdata("")
@@ -37,7 +39,7 @@ const Diagonstics = () => {
     const regex = new RegExp(searchterm, "gi");
     const searchResults = nodal_heads_list.reduce((acc, message) => {
       if (
-        (message["State Name"] && message["State Name"].match(regex))
+        (message["districtName"] && message["districtName"].match(regex))
       ) {
         acc.push(message);
       }
@@ -50,14 +52,10 @@ const Diagonstics = () => {
     return<Table.Header>
         <Table.Row >
         <Table.HeaderCell >SNo</Table.HeaderCell>
-        <Table.HeaderCell >ADDL</Table.HeaderCell>
-        <Table.HeaderCell >State Name</Table.HeaderCell>
         <Table.HeaderCell >District Name</Table.HeaderCell>
-        <Table.HeaderCell >Person Name</Table.HeaderCell>
-        <Table.HeaderCell >Mobile</Table.HeaderCell>
-        <Table.HeaderCell >Fax No</Table.HeaderCell>
-        <Table.HeaderCell >EMail</Table.HeaderCell>
-        <Table.HeaderCell >Contact No</Table.HeaderCell>
+        <Table.HeaderCell >State Name</Table.HeaderCell>
+        <Table.HeaderCell>Diagonstic Center</Table.HeaderCell>
+        <Table.HeaderCell >Contact Number</Table.HeaderCell>
         </Table.Row>
       </Table.Header>
     
@@ -70,7 +68,7 @@ const Diagonstics = () => {
     <Table.Body>
       {
         result.map((d,_) => (
-          tableDataRow(d)
+          tableDataRow(d,_)
         ))}
         </Table.Body>
       </Fragment>
@@ -84,16 +82,12 @@ const Diagonstics = () => {
     )
   }
   const tableDataRow = (d,_) =>{
-    return <Table.Row key={`${d["ADDL"]}${_}`}>
-    <Table.Cell >{d["SNo"]}</Table.Cell>
-    <Table.Cell >{d["ADDL"]}</Table.Cell>
-    <Table.Cell >{d["State Name"]}</Table.Cell>
-    <Table.Cell >{d["District Name"]}</Table.Cell>
-    <Table.Cell >{d["Person Name"]}</Table.Cell>
-    <Table.Cell >{d["Mobile"]}</Table.Cell>
-  <Table.Cell >{d["Fax No"]}</Table.Cell>
-  <Table.Cell >{d["EMail"]}</Table.Cell>
-  <Table.Cell >{d["Contact No"]}</Table.Cell>
+    return <Table.Row key={d.id}>
+    <Table.Cell >{_+1}</Table.Cell>
+    <Table.Cell >{d["districtName"]}</Table.Cell>
+    <Table.Cell >{d["stateName"]}</Table.Cell>
+    <Table.Cell>{d["diagnosticCenter"]}</Table.Cell>
+  <Table.Cell >{d[" contactNumber "]}</Table.Cell>
     </Table.Row>
   }
   const displayList = () => {
@@ -123,7 +117,7 @@ const Diagonstics = () => {
   return (!loading ? data && 
     <Grid className="m-4">
     <GridRow stretched>
-    <Form.Input style={{width: '50%',marginLeft:"16px"}} label="State Name" name="searchTerm" value={searchterm} onChange={handleSearchChange} type="text" placeholder="Enter state name" />
+    <Form.Input style={{width: '50%',marginLeft:"16px"}} label="District Name" name="searchTerm" value={searchterm} onChange={handleSearchChange} type="text" placeholder="Enter state name" />
     </GridRow>
     <Grid.Row>
     <Header>List of Diagonstics Laboratory</Header>

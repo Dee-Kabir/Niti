@@ -1,7 +1,6 @@
-import { Component, Fragment, useState } from "react"
-import firebase from "../../firebase";
-import DoctorCard from "../../doctors/DoctorCard"
-const doctorsRef = firebase.firestore().collection("doctors"); 
+import { Component, Fragment } from "react"
+import LoadingComponent from "../../utilities/LoadingComponent";
+import DoctorCard from "./DoctorCard"
 class HospitalCard extends Component{
   state = {
     show : false,
@@ -28,9 +27,9 @@ class HospitalCard extends Component{
     doctors = () => (<DoctorCard doctors={this.state.doctorsList} heading={`Doctors in hospital ${this.props.hospital.name}`} />)
     
     render(){
-      const {doctorsList,loading,show} = this.state;
+      const {loading,show} = this.state;
       const {hospital} = this.props
-    return(
+    return(!loading ?
         <Fragment>
       <div
         style={{
@@ -83,7 +82,7 @@ class HospitalCard extends Component{
           {show && hospital && this.doctors()}
           </div>
       }
-    </Fragment>
+    </Fragment> : <LoadingComponent />
     )
     }
 }

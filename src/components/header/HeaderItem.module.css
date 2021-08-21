@@ -46,9 +46,5 @@
     .HeaderItem_heading{
         color: white;
     }
-    .HeaderItem_block:active {
-        background: none;
-        border-top-left-radius: 0px;
-        border-top-right-radius: 0px;
-    }
+    
 }

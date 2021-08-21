@@ -20,3 +20,20 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+input {
+  outline: none;
+}
+#videos_portal{
+  margin-top: 100px;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+}
+.videos_portal_styles {
+  margin-left: 20%;
+  width: 60%;
+  height: calc(50vh);
+  margin-top: 40px;
+  display: flex;
+  flex-wrap: wrap;
+}

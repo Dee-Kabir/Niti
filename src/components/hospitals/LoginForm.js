@@ -1,5 +1,5 @@
-import { Grid, Header, Form,Button } from "semantic-ui-react";
-import classes from "../../organization/RegisterHospital.module.css";
+import { Grid, Header, Form, Button } from "semantic-ui-react";
+import classes from "../../pages/organization/RegisterHospital.module.css";
 import { Radio } from "antd";
 const LoginForm = ({
   handleChange,
@@ -13,12 +13,14 @@ const LoginForm = ({
     <div className={classes.RegisterForm_H}>
       <Grid>
         <Grid.Row className="text-center">
-        <Radio.Group >
-          <Radio.Button onClick={() => setFormLogin(true)}>Login</Radio.Button>
-          <Radio.Button onClick={() => setFormLogin(false)}>
-            Register
-          </Radio.Button>
-        </Radio.Group>
+          <Radio.Group>
+            <Radio.Button onClick={() => setFormLogin(true)}>
+              Login
+            </Radio.Button>
+            <Radio.Button onClick={() => setFormLogin(false)}>
+              Register
+            </Radio.Button>
+          </Radio.Group>
         </Grid.Row>
         <Grid.Row>
           <Form onSubmit={handleloginSubmit}>
@@ -44,22 +46,31 @@ const LoginForm = ({
               required
             />
             <div style={{ textAlign: "center", marginTop: "20px" }}>
-            <Button disabled={loading} loading={loading} type="submit" primary fluid size="large">
-            Login
-          </Button>
+              <Button
+                disabled={loading}
+                loading={loading}
+                type="submit"
+                primary
+                fluid
+                size="large"
+              >
+                Login
+              </Button>
             </div>
           </Form>
         </Grid.Row>
         <Grid.Row className="text-center">
-        <div style={{ textAlign: "center", fontSize: "1rem", marginTop: "4px" }}>
-          Not Registered yet?{" "}
-          <span
-            onClick={() => setFormLogin(false)}
-            style={{ color: "blue", cursor: "pointer" }}
+          <div
+            style={{ textAlign: "center", fontSize: "1rem", marginTop: "4px" }}
           >
-            Register
-          </span>
-        </div>
+            Not Registered yet?{" "}
+            <span
+              onClick={() => setFormLogin(false)}
+              style={{ color: "blue", cursor: "pointer" }}
+            >
+              Register
+            </span>
+          </div>
         </Grid.Row>
       </Grid>
     </div>

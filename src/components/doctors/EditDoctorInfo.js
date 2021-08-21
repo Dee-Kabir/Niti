@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { getDoctor, isAuthenticated } from "../../actions/auth";
-import RegisterDoctorForm from "../../doctors/RegisterDoctorForm";
+import { isAuthenticated } from "../../actions/auth";
+import RegisterDoctorForm from "./RegisterDoctorForm";
 import LoadingComponent from "../../utilities/LoadingComponent";
 import classes from "./ShowDoctorInfo.module.css"
 import {editDoctor} from "../../actions/firebaseapi"
